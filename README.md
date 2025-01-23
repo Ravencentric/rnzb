@@ -1,6 +1,6 @@
 # rnzb
 
-Python bindings to the [nzb-rs](https://github.com/ravencentric/nzb-rs) library - a [spec](https://sabnzbd.org/wiki/extra/nzb-spec) compliant parser for [NZB](https://en.wikipedia.org/wiki/NZB) files, written in Rust.
+Python bindings to the [nzb-rs](https://github.com/Ravencentric/nzb-rs) library - a [spec](https://sabnzbd.org/wiki/extra/nzb-spec) compliant parser for [NZB](https://en.wikipedia.org/wiki/NZB) files, written in Rust.
 
 ## Installation
 

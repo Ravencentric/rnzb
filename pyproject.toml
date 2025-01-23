@@ -1,7 +1,7 @@
 [project]
 name = "rnzb"
 version = "0.1.0"
-description = "Python bindings to the nzb-rs library, which is a spec compliant parser for NZB files."
+description = "Python bindings to the nzb-rs library - a spec compliant parser for NZB files, written in Rust."
 authors = [{ name = "Ravencentric", email = "me@ravencentric.cc" }]
 readme = "README.md"
 license = "MIT OR Apache-2.0"
