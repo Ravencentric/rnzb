@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from rnzb import InvalidNzbError, parse, parse_file
+from rnzb import InvalidNzbError, Nzb
 
 nzbs = Path("tests/nzbs")
 
@@ -47,21 +47,21 @@ valid_xml_but_invalid_nzb = """\
 
 def test_parsing_invalid_nzb() -> None:
     with pytest.raises(InvalidNzbError):
-        parse(invalid_xml)
+        Nzb.from_str(invalid_xml)
 
     with pytest.raises(InvalidNzbError):
-        parse(valid_xml_but_invalid_nzb)
+        Nzb.from_str(valid_xml_but_invalid_nzb)
 
 
 def test_parser_exceptions() -> None:
     with pytest.raises(InvalidNzbError):
-        parse_file(nzbs / "malformed_files.nzb")
+        Nzb.from_file(nzbs / "malformed_files.nzb")
 
     with pytest.raises(InvalidNzbError):
-        parse_file(nzbs / "malformed_files2.nzb")
+        Nzb.from_file(nzbs / "malformed_files2.nzb")
 
     with pytest.raises(InvalidNzbError):
-        parse_file(nzbs / "malformed_groups.nzb")
+        Nzb.from_file(nzbs / "malformed_groups.nzb")
 
     with pytest.raises(InvalidNzbError):
-        parse_file(nzbs / "malformed_segments.nzb")
+        Nzb.from_file(nzbs / "malformed_segments.nzb")

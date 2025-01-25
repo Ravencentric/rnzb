@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from datetime import datetime
+import datetime as dt
+from collections.abc import Sequence
 from os import PathLike
 from typing import final
 
@@ -10,68 +11,40 @@ __all__ = [
     "Meta",
     "Nzb",
     "Segment",
-    "parse",
-    "parse_file",
 ]
 
-def parse(nzb: str) -> Nzb:
-    """
-    Parse the given string into an [`Nzb`].
-
-    Returns
-    -------
-    Nzb
-        Object representing the parsed Nzb file.
-
-    Raises
-    ------
-    InvalidNzbError
-        Raised if the Nzb is invalid.
-
-    """
-
-def parse_file(nzb: str | PathLike[str]) -> Nzb:
-    """
-    Parse the given file into an [`Nzb`].
-    Note that this will read the entire file into memory.
-
-    Parameters
-    ----------
-    nzb : str | PathLike[str]
-        Path to the Nzb file.
-
-    Returns
-    -------
-    Nzb
-        Object representing the parsed Nzb file.
-
-    Raises
-    ------
-    InvalidNzbError
-        Raised if:
-        - the contents of the file are not valid UTF-8.
-        - the Nzb is invalid.
-
-    """
 @final
 class InvalidNzbError(Exception):
-    """Raised when the Nzb is invalid."""
+    """Raised when the NZB is invalid."""
 
 @final
 class Meta:
-    """Optional creator-definable metadata for the contents of the Nzb."""
+    """Optional creator-definable metadata for the contents of the NZB."""
 
     title: str | None
     """Title."""
 
     passwords: tuple[str, ...]
-    """Password(s)."""
+    """Passwords."""
 
     tags: tuple[str, ...]
-    """Tag(s)."""
+    """Tags."""
 
     category: str | None
     """Category."""
+
+    def __new__(
+        cls,
+        *,
+        title: str | None = None,
+        passwords: Sequence[str] = (),
+        tags: Sequence[str] = (),
+        category: str | None = None,
+    ) -> Meta:
+        """Create a new instance of Meta."""
+
+    def __repr__(self) -> str: ...
+    def __str__(self) -> str: ...
 
 @final
 class Segment:
@@ -84,6 +57,12 @@ class Segment:
     message_id: str
     """Message ID of the segment."""
 
+    def __new__(cls, *, size: int, number: int, message_id: str) -> Segment:
+        """Create a new instance of Segment."""
+
+    def __repr__(self) -> str: ...
+    def __str__(self) -> str: ...
+
 @final
 class File:
     """Represents a complete file, consisting of segments that make up a file."""
@@ -91,7 +70,7 @@ class File:
     poster: str
     """The poster of the file."""
 
-    datetime: datetime
+    datetime: dt.datetime
     """The date and time when the file was posted, in UTC."""
 
     subject: str
@@ -103,6 +82,19 @@ class File:
     segments: tuple[Segment, ...]
     """Segments that make up the file."""
 
+    def __new__(
+        cls,
+        *,
+        poster: str,
+        datetime: dt.datetime,
+        subject: str,
+        groups: Sequence[str],
+        segments: Sequence[Segment],
+    ) -> File:
+        """Create a new instance of File."""
+
+    def __repr__(self) -> str: ...
+    def __str__(self) -> str: ...
     @property
     def size(self) -> int:
         """Size of the file calculated from the sum of segment sizes."""
@@ -111,20 +103,20 @@ class File:
     def name(self) -> str | None:
         """
         Complete name of the file with it's extension extracted from the subject.
-        May return `None` if it fails to extract the name. if it fails to extract the name.
+        May return `None` if it fails to extract the name.
         """
 
     @property
     def stem(self) -> str | None:
         """
-        Base name of the file without it's extension extracted from the [`File.name`][nzb._models.File.name].
+        Base name of the file without it's extension extracted from the [`File.name`][rnzb.File.name].
         May return `None` if it fails to extract the stem.
         """
 
     @property
     def extension(self) -> str | None:
         """
-        Extension of the file extracted from the [`File.name`][nzb._models.File.name].
+        Extension of the file without the leading dot extracted from the [`File.name`][rnzb.File.name].
         May return `None` if it fails to extract the extension.
         """
 
@@ -145,43 +137,133 @@ class File:
 
 @final
 class Nzb:
-    """Represents a complete Nzb file."""
+    """Represents a complete NZB file."""
 
     meta: Meta
-    """Optional creator-definable metadata for the contents of the Nzb."""
+    """Optional creator-definable metadata for the contents of the NZB."""
 
     files: tuple[File, ...]
-    """File objects representing the files included in the Nzb."""
+    """File objects representing the files included in the NZB."""
+
+    def __new__(cls, *, meta: Meta, files: Sequence[File]) -> Nzb:
+        """Create a new instance of NZB."""
+
+    def __repr__(self) -> str: ...
+    def __str__(self) -> str: ...
+    @classmethod
+    def from_str(cls, nzb: str, /) -> Nzb:
+        """
+        Parse the given string into an [`Nzb`].
+
+        Parameters
+        ----------
+        nzb : str
+            NZB string.
+
+        Returns
+        -------
+        Nzb
+            Object representing the parsed NZB file.
+
+        Raises
+        ------
+        InvalidNzbError
+            Raised if the NZB is invalid.
+
+        """
+
+    @classmethod
+    def from_file(cls, nzb: str | PathLike[str], /) -> Nzb:
+        """
+        Parse the given file into an [`Nzb`].
+        Note that this will read the entire file into memory.
+
+        Parameters
+        ----------
+        nzb : str | PathLike[str]
+            Path to the NZB file.
+
+        Returns
+        -------
+        Nzb
+            Object representing the parsed NZB file.
+
+        Raises
+        ------
+        InvalidNzbError
+            Raised if:
+            - the contents of the file are not valid UTF-8.
+            - the NZB is invalid.
+
+        """
+
+    @classmethod
+    def from_json(cls, json: str, /) -> Nzb:
+        """
+        Deserialize the given JSON string into an [`Nzb`].
+
+        Parameters
+        ----------
+        json : str
+            JSON string representing the NZB.
+
+        Returns
+        -------
+        Nzb
+            Object representing the parsed NZB file.
+
+        Raises
+        ------
+        InvalidNzbError
+            Raised if the NZB is invalid.
+
+        """
+
+    def to_json(self, *, pretty: bool = False) -> str:
+        """
+        Serialize the [`Nzb`] object into a JSON string.
+
+        Parameters
+        ----------
+        pretty : bool, optional
+            Whether to pretty format the JSON string.
+
+        Returns
+        -------
+        str
+            JSON string representing the NZB.
+
+        """
 
     @property
     def file(self) -> File:
         """
-        The main content file (episode, movie, etc) in the Nzb.
-        This is determined by finding the largest file in the Nzb
+        The main content file (episode, movie, etc) in the NZB.
+        This is determined by finding the largest file in the NZB
         and may not always be accurate.
         """
 
     @property
     def size(self) -> int:
-        """Total size of all the files in the Nzb."""
+        """Total size of all the files in the NZB."""
 
     @property
     def filenames(self) -> tuple[str, ...]:
         """
-        Tuple of unique file names across all the files in the Nzb.
+        Tuple of unique file names across all the files in the NZB.
         May return an empty tuple if it fails to extract the name for every file.
         """
 
     @property
     def posters(self) -> tuple[str, ...]:
         """
-        Tuple of unique posters across all the files in the Nzb.
+        Tuple of unique posters across all the files in the NZB.
         """
 
     @property
     def groups(self) -> tuple[str, ...]:
         """
-        Tuple of unique groups across all the files in the Nzb.
+        Tuple of unique groups across all the files in the NZB.
         """
 
     @property
@@ -198,20 +280,20 @@ class Nzb:
 
     def has_rar(self) -> bool:
         """
-        Return `True` if any file in the Nzb is a `.rar` file, `False` otherwise.
+        Return `True` if any file in the NZB is a `.rar` file, `False` otherwise.
         """
 
     def is_rar(self) -> bool:
         """
-        Return `True` if all files in the Nzb are `.rar` files, `False` otherwise.
+        Return `True` if all files in the NZB are `.rar` files, `False` otherwise.
         """
 
     def is_obfuscated(self) -> bool:
         """
-        Return `True` if any file in the Nzb is obfuscated, `False` otherwise.
+        Return `True` if any file in the NZB is obfuscated, `False` otherwise.
         """
 
     def has_par2(self) -> bool:
         """
-        Return `True` if there's at least one `.par2` file in the Nzb, `False` otherwise.
+        Return `True` if there's at least one `.par2` file in the NZB, `False` otherwise.
         """
