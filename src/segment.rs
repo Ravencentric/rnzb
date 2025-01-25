@@ -6,13 +6,13 @@ use std::fmt::{Debug, Display};
 // Python wrapper class for RustSegment
 #[pyclass(module = "rnzb", frozen, eq, hash)]
 #[derive(Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub(crate) struct Segment {
+pub struct Segment {
     #[pyo3(get)]
-    size: u32,
+    pub size: u32,
     #[pyo3(get)]
-    number: u32,
+    pub number: u32,
     #[pyo3(get)]
-    message_id: String,
+    pub message_id: String,
 }
 
 // Implement Python-esque debug
@@ -60,7 +60,7 @@ impl From<Segment> for RustSegment {
 impl Segment {
     #[new]
     #[pyo3(signature = (*, size, number, message_id))]
-    fn __new__(size: u32, number: u32, message_id: String) -> Self {
+    pub fn __new__(size: u32, number: u32, message_id: String) -> Self {
         Self {
             size,
             number,
@@ -68,11 +68,11 @@ impl Segment {
         }
     }
 
-    fn __repr__(&self) -> String {
+    pub fn __repr__(&self) -> String {
         format!("{:?}", self)
     }
 
-    fn __str__(&self) -> String {
+    pub fn __str__(&self) -> String {
         self.__repr__()
     }
 }

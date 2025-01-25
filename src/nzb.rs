@@ -14,11 +14,11 @@ use std::path::PathBuf;
 // Python wrapper class for NZB
 #[pyclass(module = "rnzb", frozen, eq, hash)]
 #[derive(Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub(crate) struct Nzb {
+pub struct Nzb {
     #[pyo3(get)]
-    meta: Meta,
+    pub meta: Meta,
     #[pyo3(get)]
-    files: Tuple<File>,
+    pub files: Tuple<File>,
     #[serde(skip)]
     inner: RustNzb,
 }
@@ -53,7 +53,7 @@ impl From<RustNzb> for Nzb {
 impl Nzb {
     #[new]
     #[pyo3(signature = (*, meta, files))]
-    fn __new__(meta: Meta, files: Vec<File>) -> Self {
+    pub fn __new__(meta: Meta, files: Vec<File>) -> Self {
         Self {
             meta: meta.clone(),
             files: files.clone().into(),
@@ -64,18 +64,18 @@ impl Nzb {
         }
     }
 
-    fn __repr__(&self) -> String {
+    pub fn __repr__(&self) -> String {
         format!("{:?}", self)
     }
 
-    fn __str__(&self) -> String {
+    pub fn __str__(&self) -> String {
         self.__repr__()
     }
 
     #[classmethod]
     #[pyo3(signature = (nzb, /))]
     #[allow(unused_variables)]
-    fn from_str(cls: &Bound<'_, PyType>, nzb: &str) -> PyResult<Nzb> {
+    pub fn from_str(cls: &Bound<'_, PyType>, nzb: &str) -> PyResult<Nzb> {
         match RustNzb::parse(nzb) {
             Ok(nzb) => Ok(Nzb::from(nzb)),
             Err(e) => Err(InvalidNzbError::new_err(e.message)),
@@ -85,7 +85,7 @@ impl Nzb {
     #[classmethod]
     #[pyo3(signature = (nzb, /))]
     #[allow(unused_variables)]
-    fn from_file(cls: &Bound<'_, PyType>, nzb: PathBuf) -> PyResult<Nzb> {
+    pub fn from_file(cls: &Bound<'_, PyType>, nzb: PathBuf) -> PyResult<Nzb> {
         let content = fs::read_to_string(nzb).map_err(|e| InvalidNzbError::new_err(e.to_string()))?;
         match RustNzb::parse(&content) {
             Ok(nzb) => Ok(Nzb::from(nzb)),
@@ -96,13 +96,13 @@ impl Nzb {
     #[classmethod]
     #[allow(unused_variables)]
     #[pyo3(signature = (json, /))]
-    fn from_json(cls: &Bound<'_, PyType>, json: &str) -> PyResult<Nzb> {
+    pub fn from_json(cls: &Bound<'_, PyType>, json: &str) -> PyResult<Nzb> {
         let nzb: RustNzb = serde_json::from_str(json).map_err(|e| InvalidNzbError::new_err(e.to_string()))?;
         Ok(Nzb::from(nzb))
     }
 
     #[pyo3(signature = (*, pretty=false))]
-    fn to_json(&self, pretty: bool) -> PyResult<String> {
+    pub fn to_json(&self, pretty: bool) -> PyResult<String> {
         if pretty {
             serde_json::to_string_pretty(&self).map_err(|e| InvalidNzbError::new_err(e.to_string()))
         } else {
@@ -111,64 +111,64 @@ impl Nzb {
     }
 
     #[getter]
-    fn file(&self) -> File {
+    pub fn file(&self) -> File {
         // self.files is guranteed to have atleast one file, so we can safely unwrap().
         File::from(self.inner.file().clone())
     }
 
     // Total size of all the files in the NZB.
     #[getter]
-    fn size(&self) -> u64 {
+    pub fn size(&self) -> u64 {
         self.inner.size()
     }
 
     // Vector of unique file names across all the files in the NZB.
     #[getter]
-    fn filenames(&self) -> Tuple<&str> {
+    pub fn filenames(&self) -> Tuple<&str> {
         self.inner.filenames().into()
     }
 
     // Vector of unique posters across all the files in the NZB.
     #[getter]
-    fn posters(&self) -> Tuple<&str> {
+    pub fn posters(&self) -> Tuple<&str> {
         self.inner.posters().into()
     }
 
     // Vector of unique groups across all the files in the NZB.
     #[getter]
-    fn groups(&self) -> Tuple<&str> {
+    pub fn groups(&self) -> Tuple<&str> {
         self.inner.groups().into()
     }
 
     // Total size of all the `.par2` files.
     #[getter]
-    fn par2_size(&self) -> u64 {
+    pub fn par2_size(&self) -> u64 {
         self.inner.par2_size()
     }
 
     // Percentage of the size of all the `.par2` files relative to the total size.
     #[getter]
-    fn par2_percentage(&self) -> f64 {
+    pub fn par2_percentage(&self) -> f64 {
         self.inner.par2_percentage()
     }
 
     // Return [`true`] if there's at least one `.par2` file in the NZB, [`false`] otherwise.
-    fn has_par2(&self) -> bool {
+    pub fn has_par2(&self) -> bool {
         self.inner.has_par2()
     }
 
     // Return [`true`] if any file in the NZB is a `.rar` file, [`false`] otherwise.
-    fn has_rar(&self) -> bool {
+    pub fn has_rar(&self) -> bool {
         self.inner.has_rar()
     }
 
     // Return [`true`] if every file in the NZB is a `.rar` file, [`false`] otherwise.
-    fn is_rar(&self) -> bool {
+    pub fn is_rar(&self) -> bool {
         self.inner.is_rar()
     }
 
     // Return [`true`] if any file in the NZB is obfuscated, [`false`] otherwise.
-    fn is_obfuscated(&self) -> bool {
+    pub fn is_obfuscated(&self) -> bool {
         self.inner.is_obfuscated()
     }
 }

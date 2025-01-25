@@ -10,17 +10,17 @@ use std::fmt::Display;
 // Python wrapper class for File
 #[pyclass(module = "rnzb", frozen, eq, hash)]
 #[derive(Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub(crate) struct File {
+pub struct File {
     #[pyo3(get)]
-    poster: String,
+    pub poster: String,
     #[pyo3(get)]
-    datetime: DateTime<Utc>,
+    pub datetime: DateTime<Utc>,
     #[pyo3(get)]
-    subject: String,
+    pub subject: String,
     #[pyo3(get)]
-    groups: Tuple<String>,
+    pub groups: Tuple<String>,
     #[pyo3(get)]
-    segments: Tuple<Segment>,
+    pub segments: Tuple<Segment>,
     #[serde(skip)]
     inner: RustFile,
 }
@@ -85,7 +85,7 @@ impl From<File> for RustFile {
 impl File {
     #[new]
     #[pyo3(signature = (*, poster, datetime, subject, groups, segments))]
-    fn __new__(
+    pub fn __new__(
         poster: String,
         datetime: DateTime<Utc>,
         subject: String,
@@ -108,53 +108,53 @@ impl File {
         }
     }
 
-    fn __repr__(&self) -> String {
+    pub fn __repr__(&self) -> String {
         format!("{:?}", self)
     }
 
-    fn __str__(&self) -> String {
+    pub fn __str__(&self) -> String {
         self.__repr__()
     }
 
     // Size of the file calculated from the sum of segment sizes.
     #[getter]
-    fn size(&self) -> u64 {
+    pub fn size(&self) -> u64 {
         self.inner.size()
     }
 
     // Complete name of the file with it's extension extracted from the subject.
     // May return [`None`] if it fails to extract the name.
     #[getter]
-    fn name(&self) -> Option<&str> {
+    pub fn name(&self) -> Option<&str> {
         self.inner.name()
     }
 
     // Base name of the file without it's extension extracted from the [`File::name`].
     // May return [`None`] if it fails to extract the stem.
     #[getter]
-    fn stem(&self) -> Option<&str> {
+    pub fn stem(&self) -> Option<&str> {
         self.inner.stem()
     }
 
     //  Extension of the file extracted from the [`File::name`].
     // May return [`None`] if it fails to extract the extension.
     #[getter]
-    fn extension(&self) -> Option<&str> {
+    pub fn extension(&self) -> Option<&str> {
         self.inner.extension()
     }
 
     // Return [`true`] if the file is a `.par2` file, [`false`] otherwise.
-    fn is_par2(&self) -> bool {
+    pub fn is_par2(&self) -> bool {
         self.inner.is_par2()
     }
 
     // Return [`true`] if the file is a `.rar` file, [`false`] otherwise.
-    fn is_rar(&self) -> bool {
+    pub fn is_rar(&self) -> bool {
         self.inner.is_rar()
     }
 
     // Return [`true`] if the file is obfuscated, [`false`] otherwise.
-    fn is_obfuscated(&self) -> bool {
+    pub fn is_obfuscated(&self) -> bool {
         self.inner.is_obfuscated()
     }
 }

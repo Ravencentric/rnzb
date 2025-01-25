@@ -6,7 +6,7 @@ use std::fmt::{self, Debug, Display, Formatter};
 // Wrapper around a Vec<T> to implement IntoPyObject for Python tuple.
 #[derive(Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(transparent)]
-pub(crate) struct Tuple<T>(pub Vec<T>);
+pub struct Tuple<T>(pub Vec<T>);
 
 impl<'py, T: IntoPyObject<'py>> IntoPyObject<'py> for Tuple<T> {
     type Target = PyTuple;

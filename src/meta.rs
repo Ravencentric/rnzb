@@ -7,15 +7,15 @@ use std::fmt::{Debug, Display};
 // Python wrapper class for Meta
 #[pyclass(module = "rnzb", frozen, eq, hash)]
 #[derive(Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub(crate) struct Meta {
+pub struct Meta {
     #[pyo3(get)]
-    title: Option<String>,
+    pub title: Option<String>,
     #[pyo3(get)]
-    passwords: Tuple<String>,
+    pub passwords: Tuple<String>,
     #[pyo3(get)]
-    tags: Tuple<String>,
+    pub tags: Tuple<String>,
     #[pyo3(get)]
-    category: Option<String>,
+    pub category: Option<String>,
 }
 
 // Implement Python-esque debug
@@ -72,7 +72,7 @@ impl From<Meta> for RustMeta {
 impl Meta {
     #[new]
     #[pyo3(signature = (*, title=None, passwords=Vec::new(), tags=Vec::new(), category=None))]
-    fn __new__(title: Option<String>, passwords: Vec<String>, tags: Vec<String>, category: Option<String>) -> Self {
+    pub fn __new__(title: Option<String>, passwords: Vec<String>, tags: Vec<String>, category: Option<String>) -> Self {
         Self {
             title,
             passwords: passwords.into(),
@@ -80,11 +80,11 @@ impl Meta {
             category,
         }
     }
-    fn __repr__(&self) -> String {
+    pub fn __repr__(&self) -> String {
         format!("{:?}", self)
     }
 
-    fn __str__(&self) -> String {
+    pub fn __str__(&self) -> String {
         self.__repr__()
     }
 }
