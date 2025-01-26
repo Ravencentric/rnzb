@@ -51,8 +51,9 @@ jobs:
               pypy3.10
 
       - name: Install uv
-        id: setup-uv
         uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: false
 
       - name: Run nox
         run: uv run nox
