@@ -10,6 +10,7 @@ use crate::file::File;
 use crate::meta::Meta;
 use crate::nzb::Nzb;
 use crate::segment::Segment;
+use crate::tuple::Tuple;
 use pyo3::prelude::*;
 
 #[pymodule]
@@ -19,5 +20,9 @@ fn rnzb(py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<File>()?;
     m.add_class::<Segment>()?;
     m.add("InvalidNzbError", py.get_type::<InvalidNzbError>())?;
+    m.add(
+        "__all__",
+        Tuple::from(vec!["File", "InvalidNzbError", "Meta", "Nzb", "Segment"]),
+    )?;
     Ok(())
 }

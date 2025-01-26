@@ -3,13 +3,7 @@ from collections.abc import Sequence
 from os import PathLike
 from typing import final
 
-__all__ = [
-    "File",
-    "InvalidNzbError",
-    "Meta",
-    "Nzb",
-    "Segment",
-]
+__all__ = ("File", "InvalidNzbError", "Meta", "Nzb", "Segment")
 
 @final
 class InvalidNzbError(Exception):
