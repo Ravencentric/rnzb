@@ -21,6 +21,7 @@ jobs:
           CIBW_BEFORE_ALL_WINDOWS: rustup target add i686-pc-windows-msvc
           CIBW_ENVIRONMENT_LINUX: "PATH=$HOME/.cargo/bin:$PATH"
           CIBW_SKIP: "*-musllinux_i686"
+          MACOSX_DEPLOYMENT_TARGET: 11.0
         #    ...
         # with:
         #   package-dir: .
