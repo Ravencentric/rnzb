@@ -14,7 +14,6 @@ def cargo(session: nox.Session, *args: str) -> None:
 
 
 def install(session: nox.Session) -> None:
-    """Install the current project."""
     session.run_install(
         "uv",
         "sync",
@@ -49,7 +48,6 @@ def clean(session: nox.Session) -> None:
 
 @nox.session
 def lint(session: nox.Session) -> None:
-    """Run ruff."""
     install(session)
 
     if os.getenv("CI"):
@@ -68,6 +66,5 @@ def lint(session: nox.Session) -> None:
 
 @nox.session(python=PYTHON_VERSIONS)
 def tests(session: nox.Session) -> None:
-    """Run tests."""
     install(session)
     session.run("pytest", "-vv", *session.posargs)
