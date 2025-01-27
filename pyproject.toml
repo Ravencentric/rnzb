@@ -56,6 +56,10 @@ filterwarnings = ["error"]
 log_cli_level = "info"
 testpaths = ["tests"]
 
+[tool.maturin]
+profile = "release"
+locked = true
+
 [build-system]
 requires = ["maturin>=1.8,<2.0"]
 build-backend = "maturin"
