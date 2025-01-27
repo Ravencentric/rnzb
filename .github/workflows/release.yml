@@ -21,23 +21,6 @@ jobs:
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22.0
-        env:
-          CIBW_BEFORE_ALL_LINUX: curl -sSf https://sh.rustup.rs | sh -s -- -y
-          CIBW_BEFORE_ALL_WINDOWS: rustup target add i686-pc-windows-msvc
-          CIBW_ENVIRONMENT_LINUX: "PATH=$HOME/.cargo/bin:$PATH"
-          MACOSX_DEPLOYMENT_TARGET: "11.0"
-          CIBW_ENABLE: "pypy cpython-freethreading"
-          CIBW_BUILD_FRONTEND: "build"
-          # https://cibuildwheel.pypa.io/en/stable/options/#linux-image
-          CIBW_MANYLINUX_X86_64_IMAGE: "manylinux_2_28"
-          CIBW_MANYLINUX_PYPY_X86_64_IMAGE: "manylinux_2_28"
-          CIBW_MANYLINUX_AARCH64_IMAGE: "manylinux_2_28"
-          CIBW_MANYLINUX_PPC64LE_IMAGE: "manylinux_2_28"
-          CIBW_MANYLINUX_S390X_IMAGE: "manylinux_2_28"
-          CIBW_MANYLINUX_PYPY_AARCH64_IMAGE: "manylinux_2_28"
-          # PyPA manylinux_2_28 images do not support 32 bit arch
-          # PyPA musllinux_1_2 (default) images do not support 32 bit arch
-          CIBW_SKIP: "*-manylinux_i686 *-musllinux_i686"
 
       - uses: actions/upload-artifact@v4
         with:
