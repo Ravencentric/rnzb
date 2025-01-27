@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from rnzb import InvalidNzbError, Nzb
 
-nzbs = Path("tests/nzbs")
+NZB_DIR = Path(__file__).parent.resolve() / "nzbs"
 
 invalid_xml = """\
 <?xml version="1.0" encoding="iso-8859-1" ?>
@@ -55,13 +55,13 @@ def test_parsing_invalid_nzb() -> None:
 
 def test_parser_exceptions() -> None:
     with pytest.raises(InvalidNzbError):
-        Nzb.from_file(nzbs / "malformed_files.nzb")
+        Nzb.from_file(NZB_DIR / "malformed_files.nzb")
 
     with pytest.raises(InvalidNzbError):
-        Nzb.from_file(nzbs / "malformed_files2.nzb")
+        Nzb.from_file(NZB_DIR / "malformed_files2.nzb")
 
     with pytest.raises(InvalidNzbError):
-        Nzb.from_file(nzbs / "malformed_groups.nzb")
+        Nzb.from_file(NZB_DIR / "malformed_groups.nzb")
 
     with pytest.raises(InvalidNzbError):
-        Nzb.from_file(nzbs / "malformed_segments.nzb")
+        Nzb.from_file(NZB_DIR / "malformed_segments.nzb")

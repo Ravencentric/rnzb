@@ -13,7 +13,7 @@ use crate::segment::Segment;
 use crate::tuple::Tuple;
 use pyo3::prelude::*;
 
-#[pymodule]
+#[pymodule(gil_used = false)]
 fn rnzb(py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Nzb>()?;
     m.add_class::<Meta>()?;

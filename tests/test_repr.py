@@ -2,11 +2,11 @@ from pathlib import Path
 
 from rnzb import Nzb
 
-nzbs = Path("tests/nzbs")
+NZB_DIR = Path(__file__).parent.resolve() / "nzbs"
 
 
 def test_repr() -> None:
-    nzb = Nzb.from_file(nzbs / "spec_example.nzb")
+    nzb = Nzb.from_file(NZB_DIR / "spec_example.nzb")
     assert (
         repr(nzb.meta)
         == str(nzb.meta)
@@ -42,7 +42,7 @@ def test_repr() -> None:
 
 
 def test_repr_2() -> None:
-    nzb = Nzb.from_file(nzbs / "spec_example_with_multiple_meta.nzb")
+    nzb = Nzb.from_file(NZB_DIR / "spec_example_with_multiple_meta.nzb")
     assert (
         repr(nzb.meta)
         == str(nzb.meta)
