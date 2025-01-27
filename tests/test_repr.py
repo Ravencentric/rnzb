@@ -27,17 +27,17 @@ def test_repr() -> None:
     assert (
         repr(nzb.file)
         == str(nzb.file)
-        == 'File(poster="Joe Bloggs <bloggs@nowhere.example>", datetime="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.newzbin", "alt.binaries.mojo"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com")))'
+        == 'File(poster="Joe Bloggs <bloggs@nowhere.example>", posted_at="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.newzbin", "alt.binaries.mojo"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com")))'
     )
     assert (
         repr(nzb.files)
         == str(nzb.files)
-        == '(File(poster="Joe Bloggs <bloggs@nowhere.example>", datetime="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.newzbin", "alt.binaries.mojo"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))),)'
+        == '(File(poster="Joe Bloggs <bloggs@nowhere.example>", posted_at="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.newzbin", "alt.binaries.mojo"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))),)'
     )
     assert (
         repr(nzb)
         == str(nzb)
-        == 'Nzb(meta=Meta(title="Your File!", passwords=("secret",), tags=("HD",), category="TV"), files=(File(poster="Joe Bloggs <bloggs@nowhere.example>", datetime="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.newzbin", "alt.binaries.mojo"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))),))'
+        == 'Nzb(meta=Meta(title="Your File!", passwords=("secret",), tags=("HD",), category="TV"), files=(File(poster="Joe Bloggs <bloggs@nowhere.example>", posted_at="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.newzbin", "alt.binaries.mojo"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))),))'
     )
 
 
@@ -63,15 +63,15 @@ def test_repr_2() -> None:
     assert (
         repr(nzb.file)
         == str(nzb.file)
-        == 'File(poster="Joe Bloggs <bloggs@nowhere.example>", datetime="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.newzbin", "alt.binaries.mojo"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com")))'
+        == 'File(poster="Joe Bloggs <bloggs@nowhere.example>", posted_at="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.newzbin", "alt.binaries.mojo"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com")))'
     )
     assert (
         repr(nzb.files)
         == str(nzb.files)
-        == '(File(poster="Joe Bloggs <bloggs@nowhere.example>", datetime="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.newzbin", "alt.binaries.mojo"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))),)'
+        == '(File(poster="Joe Bloggs <bloggs@nowhere.example>", posted_at="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.newzbin", "alt.binaries.mojo"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))),)'
     )
     assert (
         repr(nzb)
         == str(nzb)
-        == 'Nzb(meta=Meta(title="Your File!", passwords=(), tags=("HD", "1080p", "FLAC"), category="TV"), files=(File(poster="Joe Bloggs <bloggs@nowhere.example>", datetime="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.newzbin", "alt.binaries.mojo"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))),))'
+        == 'Nzb(meta=Meta(title="Your File!", passwords=(), tags=("HD", "1080p", "FLAC"), category="TV"), files=(File(poster="Joe Bloggs <bloggs@nowhere.example>", posted_at="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.newzbin", "alt.binaries.mojo"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))),))'
     )

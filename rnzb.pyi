@@ -1,5 +1,5 @@
-import datetime as dt
 from collections.abc import Sequence
+from datetime import datetime
 from os import PathLike
 from typing import final
 
@@ -62,7 +62,7 @@ class File:
     poster: str
     """The poster of the file."""
 
-    datetime: dt.datetime
+    posted_at: datetime
     """The date and time when the file was posted, in UTC."""
 
     subject: str
@@ -78,7 +78,7 @@ class File:
         cls,
         *,
         poster: str,
-        datetime: dt.datetime,
+        posted_at: datetime,
         subject: str,
         groups: Sequence[str],
         segments: Sequence[Segment],
