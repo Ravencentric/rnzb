@@ -56,6 +56,19 @@ filterwarnings = ["error"]
 log_cli_level = "info"
 testpaths = ["tests"]
 
+[tool.maturin]
+profile = "release"
+frozen = true
+bindings = "pyo3"
+compatibility = "manylinux_2_28"
+auditwheel = "repair"
+
+[tool.maturin.target."x86_64-apple-darwin"]
+macos-deployment-target = "11.0"
+
+[tool.maturin.target."aarch64-apple-darwin"]
+macos-deployment-target = "11.0"
+
 [build-system]
 requires = ["maturin>=1.8,<2.0"]
 build-backend = "maturin"
