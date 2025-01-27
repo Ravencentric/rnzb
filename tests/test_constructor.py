@@ -48,9 +48,9 @@ def test_segment_constructor() -> None:
 
 def test_file_constructor() -> None:
     segment = Segment(size=1, number=1, message_id="message_id")
-    file = File(poster="poster", datetime=date(), subject="subject", groups=["group"], segments=[segment])
+    file = File(poster="poster", posted_at=date(), subject="subject", groups=["group"], segments=[segment])
     assert file.poster == "poster"
-    assert file.datetime == date()
+    assert file.posted_at == date()
     assert file.subject == "subject"
     assert file.groups == ("group",)
     assert file.segments == (segment,)
@@ -65,7 +65,7 @@ def test_file_constructor() -> None:
 
 def test_nzb_constructor() -> None:
     segment = Segment(size=1, number=1, message_id="message_id")
-    file = File(poster="poster", datetime=date(), subject="subject", groups=["group"], segments=[segment])
+    file = File(poster="poster", posted_at=date(), subject="subject", groups=["group"], segments=[segment])
     nzb = Nzb(meta=Meta(), files=[file])
     assert nzb.meta == Meta()
     assert nzb.files == (file,)

@@ -14,7 +14,7 @@ pub struct File {
     #[pyo3(get)]
     pub poster: String,
     #[pyo3(get)]
-    pub datetime: DateTime<Utc>,
+    pub posted_at: DateTime<Utc>,
     #[pyo3(get)]
     pub subject: String,
     #[pyo3(get)]
@@ -30,9 +30,9 @@ impl Debug for File {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "File(poster={:?}, datetime={:?}, subject={:?}, groups={:?}, segments={:?})",
+            "File(poster={:?}, posted_at={:?}, subject={:?}, groups={:?}, segments={:?})",
             self.poster,
-            self.datetime.to_rfc3339(),
+            self.posted_at.to_rfc3339(),
             self.subject,
             self.groups,
             self.segments
@@ -53,7 +53,7 @@ impl From<RustFile> for File {
     fn from(f: RustFile) -> Self {
         Self {
             poster: f.poster.clone(),
-            datetime: f.datetime,
+            posted_at: f.posted_at,
             subject: f.subject.clone(),
             groups: f.groups.clone().into(),
             segments: f
@@ -73,7 +73,7 @@ impl From<File> for RustFile {
     fn from(f: File) -> Self {
         RustFile::new(
             f.poster.clone(),
-            f.datetime,
+            f.posted_at,
             f.subject.clone(),
             f.groups.0.clone(),
             f.segments.0.into_iter().map(Into::into).collect::<Vec<RustSegment>>(),
@@ -84,23 +84,23 @@ impl From<File> for RustFile {
 #[pymethods]
 impl File {
     #[new]
-    #[pyo3(signature = (*, poster, datetime, subject, groups, segments))]
+    #[pyo3(signature = (*, poster, posted_at, subject, groups, segments))]
     pub fn __new__(
         poster: String,
-        datetime: DateTime<Utc>,
+        posted_at: DateTime<Utc>,
         subject: String,
         groups: Vec<String>,
         segments: Vec<Segment>,
     ) -> Self {
         Self {
             poster: poster.clone(),
-            datetime,
+            posted_at,
             subject: subject.clone(),
             groups: groups.clone().into(),
             segments: segments.clone().into(),
             inner: RustFile::new(
                 poster,
-                datetime,
+                posted_at,
                 subject,
                 groups,
                 segments.into_iter().map(Into::into).collect::<Vec<RustSegment>>(),

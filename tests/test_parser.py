@@ -60,7 +60,7 @@ def test_big_buck_bunny() -> None:
     assert nzb.par2_size == 5183128
     assert nzb.par2_percentage == pytest.approx(22, 1.0)
     assert nzb.file.poster == "John <nzb@nowhere.example>"
-    assert nzb.file.datetime == datetime.datetime(2024, 1, 28, 11, 18, 28, tzinfo=datetime.timezone.utc)
+    assert nzb.file.posted_at == datetime.datetime(2024, 1, 28, 11, 18, 28, tzinfo=datetime.timezone.utc)
     assert nzb.file.subject == '[1/5] - "Big Buck Bunny - S01E01.mkv" yEnc (1/24) 16981056'
     assert nzb.file.groups == ("alt.binaries.boneless",)
     assert nzb.file.segments == (
@@ -119,7 +119,7 @@ def test_valid_nzb_with_one_missing_segment() -> None:
     assert nzb.par2_size == 5183128
     assert nzb.par2_percentage == pytest.approx(22, 1.0)
     assert nzb.file.poster == "John <nzb@nowhere.example>"
-    assert nzb.file.datetime == datetime.datetime(2024, 1, 28, 11, 18, 28, tzinfo=datetime.timezone.utc)
+    assert nzb.file.posted_at == datetime.datetime(2024, 1, 28, 11, 18, 28, tzinfo=datetime.timezone.utc)
     assert nzb.file.subject == '[1/5] - "Big Buck Bunny - S01E01.mkv" yEnc (1/24) 16981056'
     assert nzb.file.groups == ("alt.binaries.boneless",)
     assert nzb.file.segments == (
