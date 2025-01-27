@@ -58,7 +58,7 @@ testpaths = ["tests"]
 
 [tool.maturin]
 profile = "release"
-frozen = true
+locked = true
 bindings = "pyo3"
 compatibility = "manylinux_2_28"
 auditwheel = "repair"
