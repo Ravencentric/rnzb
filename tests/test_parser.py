@@ -47,6 +47,13 @@ def test_big_buck_bunny() -> None:
     assert nzb.file.stem == "Big Buck Bunny - S01E01"
     assert nzb.file.extension == "mkv"
     assert nzb.size == 22704889
+    assert [file.subject for file in nzb.files] == [
+        '[1/5] - "Big Buck Bunny - S01E01.mkv" yEnc (1/24) 16981056',
+        '[2/5] - "Big Buck Bunny - S01E01.mkv.par2" yEnc (1/1) 920',
+        '[3/5] - "Big Buck Bunny - S01E01.mkv.vol00+01.par2" yEnc (1/2) 717788',
+        '[4/5] - "Big Buck Bunny - S01E01.mkv.vol01+02.par2" yEnc (1/3) 1434656',
+        '[5/5] - "Big Buck Bunny - S01E01.mkv.vol03+04.par2" yEnc (1/5) 2869192',
+    ]
     assert nzb.filenames == (
         "Big Buck Bunny - S01E01.mkv",
         "Big Buck Bunny - S01E01.mkv.par2",
@@ -106,6 +113,13 @@ def test_valid_nzb_with_one_missing_segment() -> None:
     assert nzb.file.stem == "Big Buck Bunny - S01E01"
     assert nzb.file.extension == "mkv"
     assert nzb.size == 21965221
+    assert [file.subject for file in nzb.files] == [
+        '[1/5] - "Big Buck Bunny - S01E01.mkv" yEnc (1/24) 16981056',
+        '[2/5] - "Big Buck Bunny - S01E01.mkv.par2" yEnc (1/1) 920',
+        '[3/5] - "Big Buck Bunny - S01E01.mkv.vol00+01.par2" yEnc (1/2) 717788',
+        '[4/5] - "Big Buck Bunny - S01E01.mkv.vol01+02.par2" yEnc (1/3) 1434656',
+        '[5/5] - "Big Buck Bunny - S01E01.mkv.vol03+04.par2" yEnc (1/5) 2869192',
+    ]
     assert nzb.filenames == (
         "Big Buck Bunny - S01E01.mkv",
         "Big Buck Bunny - S01E01.mkv.par2",
