@@ -145,7 +145,7 @@ class Nzb:
     @classmethod
     def from_str(cls, nzb: str, /) -> Nzb:
         """
-        Parse the given string into an [`Nzb`].
+        Parse the given string into an [`Nzb`][rnzb.Nzb].
 
         Parameters
         ----------
@@ -167,7 +167,7 @@ class Nzb:
     @classmethod
     def from_file(cls, nzb: str | PathLike[str], /) -> Nzb:
         """
-        Parse the given file into an [`Nzb`].
+        Parse the given file into an [`Nzb`][rnzb.Nzb].
         Note that this will read the entire file into memory.
 
         Parameters
@@ -183,16 +183,14 @@ class Nzb:
         Raises
         ------
         InvalidNzbError
-            Raised if:
-            - the contents of the file are not valid UTF-8.
-            - the NZB is invalid.
+            Raised if the contents of the file are not valid UTF-8 or if the NZB is invalid.
 
         """
 
     @classmethod
     def from_json(cls, json: str, /) -> Nzb:
         """
-        Deserialize the given JSON string into an [`Nzb`].
+        Deserialize the given JSON string into an [`Nzb`][rnzb.Nzb].
 
         Parameters
         ----------
@@ -213,7 +211,7 @@ class Nzb:
 
     def to_json(self, *, pretty: bool = False) -> str:
         """
-        Serialize the [`Nzb`] object into a JSON string.
+        Serialize the [`Nzb`][rnzb.Nzb] object into a JSON string.
 
         Parameters
         ----------
