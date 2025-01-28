@@ -50,6 +50,8 @@ for file in nzb.files:
     #> Big Buck Bunny - S01E01.mkv.vol03+04.par2
 ```
 
+For more details, check out the [API reference](https://rnzb.ravencentric.cc/).
+
 ## Related projects
 
 Considering this is the fourth library for parsing a file format that almost nobody cares about and lacks a formal specification, here's an overview to help you decide:
