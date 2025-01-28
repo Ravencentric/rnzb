@@ -1,6 +1,6 @@
 # rnzb
 
-Python bindings to the [nzb-rs](https://github.com/Ravencentric/nzb-rs) library - a [spec](https://sabnzbd.org/wiki/extra/nzb-spec) compliant parser for [NZB](https://en.wikipedia.org/wiki/NZB) files, written in Rust.
+Python bindings to the [nzb-rs](https://crates.io/crates/nzb-rs) library - a [spec](https://sabnzbd.org/wiki/extra/nzb-spec) compliant parser for [NZB](https://en.wikipedia.org/wiki/NZB) files, written in Rust.
 
 ## Installation
 
@@ -31,20 +31,21 @@ for file in nzb.files:
 
 ## Related projects
 
-Considering this is the 4th library for parsing a file format almost nobody cares about with barely any specifications, here's an overview to help you decide.
+Considering this is the fourth library for parsing a file format that almost nobody cares about and lacks a formal specification, here's an overview to help you decide:
 
 | Project                                                  | Description                 | Parser | Meta Editor |
-|----------------------------------------------------------|-----------------------------|--------|-------------|
-| [`nzb`](https://pypi.org/project/nzb)                    | Original Python Library     | ✅      | ✅           |
-| [`nzb-rs`](https://crates.io/crates/nzb-rs)              | Rust port of `nzb`          | ✅      | ❌           |
-| [`rnzb`](https://pypi.org/project/nzb)                   | Python bindings to `nzb-rs` | ✅      | ❌           |
-| [`nzb-parser`](https://www.npmjs.com/package/nzb-parser) | Javascript port of `nzb`    | ✅      | ❌           |
+| -------------------------------------------------------- | --------------------------- | ------ | ----------- |
+| [`nzb`](https://pypi.org/project/nzb)                    | Original Python Library     | ✅     | ✅          |
+| [`nzb-rs`](https://crates.io/crates/nzb-rs)              | Rust port of `nzb`          | ✅     | ❌          |
+| [`rnzb`](https://pypi.org/project/nzb)                   | Python bindings to `nzb-rs` | ✅     | ❌          |
+| [`nzb-parser`](https://www.npmjs.com/package/nzb-parser) | Javascript port of `nzb`    | ✅     | ❌          |
 
 ## Performance
- 
 
-```
-❯ hyperfine --warmup 1 "python test_nzb.py" "python test_rnzb.py"
+Although [`nzb`](https://pypi.org/project/nzb) is already quite fast due to its use of the non-validating C-based [expat](https://docs.python.org/3/library/pyexpat.html) parser from Python's standard library, `rnzb` offers even better performance, being approximately 8 times faster than `nzb`.
+
+```console
+$ hyperfine --warmup 1 "python test_nzb.py" "python test_rnzb.py"
 Benchmark 1: python test_nzb.py
   Time (mean ± σ):      6.306 s ±  0.075 s    [User: 5.992 s, System: 0.225 s]
   Range (min … max):    6.225 s …  6.478 s    10 runs
@@ -58,43 +59,44 @@ Summary
     8.22 ± 0.10 times faster than python test_nzb.py
 ```
 
+The above benchmark was performed by looping over 10 random NZB files I had lying around. This benchmark isn't super scientific, but it gives a pretty good idea of the performance difference.
 
 ## Supported platforms
 
 Refer to the following table for the platforms and Python versions for which `rnzb` publishes prebuilt wheels:
 
 | Platform                            | CPython 3.9-3.13 | CPython 3.13 (t) | PyPy 3.9-3.10 |
-|-------------------------------------|------------------|------------------|---------------|
-| 🐧 Linux (`x86_64`, `glibc>=2.28`)  | ✅                | ✅                | ✅             |
-| 🐧 Linux (`x86_64`, `musl>=1.2`)    | ✅                | ✅                | ✅             |
-| 🐧 Linux (`aarch64`, `glibc>=2.28`) | ✅                | ✅                | ✅             |
-| 🐧 Linux (`aarch64`, `musl>=1.2`)   | ✅                | ✅                | ✅             |
-| 🪟 Windows (`x86`)                  | ✅                | ✅                | ❌             |
-| 🪟 Windows (`x86_64`)               | ✅                | ✅                | ✅             |
-| 🍏 macOS (`x86_64`)                 | ✅                | ✅                | ✅             |
-| 🍏 macOS (`arm64`)                  | ✅                | ✅                | ✅             |
+| ----------------------------------- | ---------------- | ---------------- | ------------- |
+| 🐧 Linux (`x86_64`, `glibc>=2.28`)  | ✅               | ✅               | ✅            |
+| 🐧 Linux (`x86_64`, `musl>=1.2`)    | ✅               | ✅               | ✅            |
+| 🐧 Linux (`aarch64`, `glibc>=2.28`) | ✅               | ✅               | ✅            |
+| 🐧 Linux (`aarch64`, `musl>=1.2`)   | ✅               | ✅               | ✅            |
+| 🪟 Windows (`x86`)                  | ✅               | ✅               | ❌            |
+| 🪟 Windows (`x86_64`)               | ✅               | ✅               | ✅            |
+| 🍏 macOS (`x86_64`)                 | ✅               | ✅               | ✅            |
+| 🍏 macOS (`arm64`)                  | ✅               | ✅               | ✅            |
 
-The library itself is not inherently tied to any specific platform or Python version. The available wheels are based on what can be built using GitHub Actions.
+The library itself is not inherently tied to any specific platform or Python version. The available wheels are based on what can be (reasonably) built using GitHub Actions.
 
 ## Building from source
 
 Building from source requires the [Rust toolchain](https://rustup.rs/) and [Python 3.9+](https://www.python.org/downloads/).
 
-With [`uv`](https://docs.astral.sh/uv/):
+- With [`uv`](https://docs.astral.sh/uv/):
 
-```bash
-git clone https://github.com/Ravencentric/rnzb
-cd rnzb
-uv build
-```
+  ```bash
+  git clone https://github.com/Ravencentric/rnzb
+  cd rnzb
+  uv build
+  ```
 
-With [`pypa/build`](https://github.com/pypa/build):
+- With [`pypa/build`](https://github.com/pypa/build):
 
-```bash
-git clone https://github.com/Ravencentric/rnzb
-cd rnzb
-python -m build
-```
+  ```bash
+  git clone https://github.com/Ravencentric/rnzb
+  cd rnzb
+  python -m build
+  ```
 
 ## License
 
