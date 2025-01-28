@@ -1,5 +1,15 @@
 # rnzb
 
+[![Tests](https://img.shields.io/github/actions/workflow/status/Ravencentric/rnzb/tests.yml?label=tests)](https://github.com/Ravencentric/rnzb/actions/workflows/tests.yml)
+[![Docs](https://img.shields.io/github/actions/workflow/status/Ravencentric/rnzb/docs.yml?label=docs)](https://github.com/Ravencentric/rnzb/actions/workflows/docs.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/Ravencentric/rnzb/release.yml?label=build)](https://github.com/Ravencentric/rnzb/actions/workflows/release.yml)
+![PyPI - Types](https://img.shields.io/pypi/types/rnzb)
+![License](https://img.shields.io/pypi/l/rnzb?color=success)
+
+[![PyPI - Latest Version](https://img.shields.io/pypi/v/rnzb?color=blue)](https://pypi.org/project/rnzb)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/rnzb)
+![PyPI - Implementation](https://img.shields.io/pypi/implementation/rnzb)
+
 Python bindings to the [nzb-rs](https://crates.io/crates/nzb-rs) library - a [spec](https://sabnzbd.org/wiki/extra/nzb-spec) compliant parser for [NZB](https://en.wikipedia.org/wiki/NZB) files, written in Rust.
 
 ## Installation
@@ -102,8 +112,8 @@ Building from source requires the [Rust toolchain](https://rustup.rs/) and [Pyth
 
 Licensed under either of:
 
-- Apache License, Version 2.0 ([LICENSE-APACHE](https://github.com/Ravencentric/rnzb/blob/main/LICENSE-APACHE) or https://www.apache.org/licenses/LICENSE-2.0)
-- MIT license ([LICENSE-MIT](https://github.com/Ravencentric/rnzb/blob/main/LICENSE-MIT) or https://opensource.org/licenses/MIT)
+- Apache License, Version 2.0 ([LICENSE-APACHE](https://github.com/Ravencentric/rnzb/blob/main/LICENSE-APACHE) or <https://www.apache.org/licenses/LICENSE-2.0>)
+- MIT license ([LICENSE-MIT](https://github.com/Ravencentric/rnzb/blob/main/LICENSE-MIT) or <https://opensource.org/licenses/MIT>)
 
 at your option.
 
