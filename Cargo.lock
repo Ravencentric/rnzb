@@ -201,9 +201,9 @@ dependencies = [
 
 [[package]]
 name = "nzb-rs"
-version = "0.4.1"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "33d7f56178d297cb212d042946e7a11cef149428e185751dc0075315b181e1a0"
+checksum = "99fe57ef70a7818dd36e0569c05f1643b81d5b8bf506f1d630ab2769d6ccd8b1"
 dependencies = [
  "chrono",
  "itertools",

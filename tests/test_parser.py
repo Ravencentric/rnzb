@@ -29,7 +29,7 @@ def test_spec_example_nzb() -> None:
         Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"),
     )
 
-    assert nzb.files[0].groups == ("alt.binaries.newzbin", "alt.binaries.mojo")
+    assert nzb.files[0].groups == ("alt.binaries.mojo", "alt.binaries.newzbin")
 
 
 def test_big_buck_bunny() -> None:

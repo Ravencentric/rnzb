@@ -47,7 +47,8 @@ jobs:
     needs: [build_wheels, build_sdist]
     environment: pypi
     permissions:
-      id-token: write
+      id-token: write # https://docs.pypi.org/trusted-publishers/using-a-publisher/#github-actions
+      contents: write # Required for creating a release
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
