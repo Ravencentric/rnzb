@@ -112,6 +112,35 @@ class File:
         May return `None` if it fails to extract the extension.
         """
 
+    def has_extension(self, ext: str, /) -> bool:
+        """
+        Check if the file has the specified extension.
+
+        This method ensures consistent extension comparison
+        by normalizing the extension (removing any leading dot)
+        and handling case-folding.
+
+        Parameters
+        ----------
+        ext : str
+            Extension to check for, with or without a leading dot (e.g., `.txt` or `txt`).
+
+        Returns
+        -------
+        bool
+            `True` if the file has the specified extension, `False` otherwise.
+
+        Examples
+        --------
+        ```python
+        >>> file.has_extension('.TXT')  # True for 'file.txt'
+        True
+        >>> file.has_extension('txt')   # Also True for 'file.txt'
+        True
+        ```
+
+        """
+
     def is_par2(self) -> bool:
         """
         Return `True` if the file is a `.par2` file, `False` otherwise.
@@ -257,6 +286,12 @@ class Nzb:
         """
 
     @property
+    def par2_files(self) -> tuple[File, ...]:
+        """
+        Tuple of par2 files in the NZB.
+        """
+
+    @property
     def par2_size(self) -> int:
         """
         Total size of all the `.par2` files.
@@ -266,6 +301,27 @@ class Nzb:
     def par2_percentage(self) -> float:
         """
         Percentage of the size of all the `.par2` files relative to the total size.
+        """
+
+    def has_extension(self, ext: str, /) -> bool:
+        """
+        Check if any file in the NZB has the specified extension.
+
+        This method ensures consistent extension comparison
+        by normalizing the extension (removing any leading dot)
+        and handling case-folding.
+
+        Parameters
+        ----------
+        ext : str
+            Extension to check for, with or without a leading dot (e.g., `.txt` or `txt`).
+
+        Returns
+        -------
+        bool
+            `True` if any file in the NZB has the specified extension, `False` otherwise.
+        ```
+
         """
 
     def has_rar(self) -> bool:

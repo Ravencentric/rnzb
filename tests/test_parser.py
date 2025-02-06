@@ -21,6 +21,12 @@ def test_spec_example_nzb() -> None:
     assert nzb.file.name == "abc-mr2a.r01"
     assert nzb.file.stem == "abc-mr2a"
     assert nzb.file.extension == "r01"
+    assert nzb.file.has_extension(".r01") is True
+    assert nzb.file.has_extension("R01") is True
+    assert nzb.file.has_extension("blah") is False
+    assert nzb.has_extension(".r01") is True
+    assert nzb.has_extension("R01") is True
+    assert nzb.has_extension("blah") is False
     assert nzb.size == 106895
     assert len(nzb.files[0].segments) == 2
     assert isinstance(nzb.files[0].segments, tuple)
@@ -46,14 +52,26 @@ def test_big_buck_bunny() -> None:
     assert nzb.file.name == "Big Buck Bunny - S01E01.mkv"
     assert nzb.file.stem == "Big Buck Bunny - S01E01"
     assert nzb.file.extension == "mkv"
+    assert nzb.file.has_extension(".mkv") is True
+    assert nzb.file.has_extension("mKv") is True
+    assert nzb.file.has_extension("blah") is False
+    assert nzb.has_extension(".mkv") is True
+    assert nzb.has_extension("mKv") is True
+    assert nzb.has_extension("blah") is False
     assert nzb.size == 22704889
-    assert [file.subject for file in nzb.files] == [
+    assert tuple(file.subject for file in nzb.files) == (
         '[1/5] - "Big Buck Bunny - S01E01.mkv" yEnc (1/24) 16981056',
         '[2/5] - "Big Buck Bunny - S01E01.mkv.par2" yEnc (1/1) 920',
         '[3/5] - "Big Buck Bunny - S01E01.mkv.vol00+01.par2" yEnc (1/2) 717788',
         '[4/5] - "Big Buck Bunny - S01E01.mkv.vol01+02.par2" yEnc (1/3) 1434656',
         '[5/5] - "Big Buck Bunny - S01E01.mkv.vol03+04.par2" yEnc (1/5) 2869192',
-    ]
+    )
+    assert tuple(file.subject for file in nzb.par2_files) == (
+        '[2/5] - "Big Buck Bunny - S01E01.mkv.par2" yEnc (1/1) 920',
+        '[3/5] - "Big Buck Bunny - S01E01.mkv.vol00+01.par2" yEnc (1/2) 717788',
+        '[4/5] - "Big Buck Bunny - S01E01.mkv.vol01+02.par2" yEnc (1/3) 1434656',
+        '[5/5] - "Big Buck Bunny - S01E01.mkv.vol03+04.par2" yEnc (1/5) 2869192',
+    )
     assert nzb.filenames == (
         "Big Buck Bunny - S01E01.mkv",
         "Big Buck Bunny - S01E01.mkv.par2",
@@ -112,14 +130,26 @@ def test_valid_nzb_with_one_missing_segment() -> None:
     assert nzb.file.name == "Big Buck Bunny - S01E01.mkv"
     assert nzb.file.stem == "Big Buck Bunny - S01E01"
     assert nzb.file.extension == "mkv"
+    assert nzb.file.has_extension(".mkv") is True
+    assert nzb.file.has_extension("mKv") is True
+    assert nzb.file.has_extension("blah") is False
+    assert nzb.has_extension(".mkv") is True
+    assert nzb.has_extension("mKv") is True
+    assert nzb.has_extension("blah") is False
     assert nzb.size == 21965221
-    assert [file.subject for file in nzb.files] == [
+    assert tuple(file.subject for file in nzb.files) == (
         '[1/5] - "Big Buck Bunny - S01E01.mkv" yEnc (1/24) 16981056',
         '[2/5] - "Big Buck Bunny - S01E01.mkv.par2" yEnc (1/1) 920',
         '[3/5] - "Big Buck Bunny - S01E01.mkv.vol00+01.par2" yEnc (1/2) 717788',
         '[4/5] - "Big Buck Bunny - S01E01.mkv.vol01+02.par2" yEnc (1/3) 1434656',
         '[5/5] - "Big Buck Bunny - S01E01.mkv.vol03+04.par2" yEnc (1/5) 2869192',
-    ]
+    )
+    assert tuple(file.subject for file in nzb.par2_files) == (
+        '[2/5] - "Big Buck Bunny - S01E01.mkv.par2" yEnc (1/1) 920',
+        '[3/5] - "Big Buck Bunny - S01E01.mkv.vol00+01.par2" yEnc (1/2) 717788',
+        '[4/5] - "Big Buck Bunny - S01E01.mkv.vol01+02.par2" yEnc (1/3) 1434656',
+        '[5/5] - "Big Buck Bunny - S01E01.mkv.vol03+04.par2" yEnc (1/5) 2869192',
+    )
     assert nzb.filenames == (
         "Big Buck Bunny - S01E01.mkv",
         "Big Buck Bunny - S01E01.mkv.par2",
@@ -169,6 +199,7 @@ def test_bad_subject() -> None:
     assert nzb.files[0].name is None
     assert nzb.files[0].stem is None
     assert nzb.files[0].extension is None
+    assert nzb.files[0].has_extension("mkv") is False
     assert nzb.files[0].is_par2() is False
     assert nzb.files[0].is_rar() is False
     assert nzb.is_rar() is False

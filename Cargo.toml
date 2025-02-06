@@ -15,7 +15,8 @@ lto = "fat"
 
 [dependencies]
 chrono = { version = "0.4.39", features = ["serde"] }
-nzb-rs = { version = "0.4.2", features = ["serde"] }
+flate2 = "1.0.35"
+nzb-rs = { version = "=0.4.4", features = ["serde"] }
 pyo3 = { version = "0.23.3", features = [
     "extension-module",
     "chrono",

@@ -140,6 +140,17 @@ impl Nzb {
         self.inner.groups().into()
     }
 
+    // Vector of .par2 files in the NZB.
+    #[getter]
+    pub fn par2_files(&self) -> Tuple<File> {
+        self.inner
+            .par2_files()
+            .into_iter()
+            .map(|f| f.clone().into())
+            .collect::<Vec<File>>()
+            .into()
+    }
+
     // Total size of all the `.par2` files.
     #[getter]
     pub fn par2_size(&self) -> u64 {
@@ -150,6 +161,15 @@ impl Nzb {
     #[getter]
     pub fn par2_percentage(&self) -> f64 {
         self.inner.par2_percentage()
+    }
+
+    // Return [`true`] if the file has the specified extension, [`false`] otherwise.
+    //
+    // This method ensures consistent extension comparison
+    // by normalizing the extension (removing any leading dot) and handling case-folding.
+    #[pyo3(signature = (ext, /))]
+    pub fn has_extension(&self, ext: &str) -> bool {
+        self.inner.has_extension(ext)
     }
 
     // Return [`true`] if there's at least one `.par2` file in the NZB, [`false`] otherwise.

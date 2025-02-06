@@ -137,10 +137,19 @@ impl File {
     }
 
     //  Extension of the file extracted from the [`File::name`].
-    // May return [`None`] if it fails to extract the extension.
+    //  May return [`None`] if it fails to extract the extension.
     #[getter]
     pub fn extension(&self) -> Option<&str> {
         self.inner.extension()
+    }
+
+    // Return [`true`] if the file has the specified extension, [`false`] otherwise.
+    //
+    // This method ensures consistent extension comparison
+    // by normalizing the extension (removing any leading dot) and handling case-folding.
+    #[pyo3(signature = (ext, /))]
+    pub fn has_extension(&self, ext: &str) -> bool {
+        self.inner.has_extension(ext)
     }
 
     // Return [`true`] if the file is a `.par2` file, [`false`] otherwise.
