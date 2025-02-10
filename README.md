@@ -113,7 +113,6 @@ Refer to the following table for the platforms and Python versions for which `rn
 | 🐧 Linux (`x86_64`, `musl>=1.2`)    | ✅               | ✅               | ✅            |
 | 🐧 Linux (`aarch64`, `glibc>=2.28`) | ✅               | ✅               | ✅            |
 | 🐧 Linux (`aarch64`, `musl>=1.2`)   | ✅               | ✅               | ✅            |
-| 🪟 Windows (`x86`)                  | ✅               | ✅               | ❌            |
 | 🪟 Windows (`x86_64`)               | ✅               | ✅               | ✅            |
 | 🍏 macOS (`x86_64`)                 | ✅               | ✅               | ✅            |
 | 🍏 macOS (`arm64`)                  | ✅               | ✅               | ✅            |
