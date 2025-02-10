@@ -90,6 +90,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "dunce"
+version = "1.0.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "92773504d58c093f6de2459af4af33faa518c13451eb8f2b5698ed3d36e7c813"
+
+[[package]]
 name = "either"
 version = "1.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -235,11 +241,13 @@ dependencies = [
 
 [[package]]
 name = "nzb-rs"
-version = "0.4.4"
+version = "0.5.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c5a8c3d566de3cd1b8de1bba1b68137db0daab17dcde7f180e274e11c5befeb2"
+checksum = "a53a0643d24e472b0a9f6e6c3d67baf76fa847b18bbe52ca218d12ecf6ed1227"
 dependencies = [
  "chrono",
+ "dunce",
+ "flate2",
  "itertools",
  "lazy-regex",
  "roxmltree",
@@ -433,9 +441,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.137"
+version = "1.0.138"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "930cfb6e6abf99298aaad7d29abbef7a9999a9a8806a40088f55f0dcec03146b"
+checksum = "d434192e7da787e94a6ea7e9670b26a036d0ca41e0b7efb2676dd32bae872949"
 dependencies = [
  "itoa",
  "memchr",
