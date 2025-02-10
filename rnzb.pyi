@@ -178,6 +178,9 @@ class Nzb:
     def __new__(cls, *, meta: Meta, files: Sequence[File]) -> Nzb:
         """Create a new instance of NZB."""
 
+    def __eq__(self, value: object) -> bool: ...
+    def __hash__(self) -> int: ...
+    def __copy__(self) -> Self: ...
     @classmethod
     def from_str(cls, nzb: str, /) -> Nzb:
         """
