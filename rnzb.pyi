@@ -1,7 +1,13 @@
+import sys
 from collections.abc import Sequence
 from datetime import datetime
 from os import PathLike
 from typing import final
+
+if sys.version_info >= (3, 11):
+    from typing import Self
+else:
+    from typing_extensions import Self
 
 __all__ = ("File", "InvalidNzbError", "Meta", "Nzb", "Segment")
 
@@ -35,8 +41,9 @@ class Meta:
     ) -> Meta:
         """Create a new instance of Meta."""
 
-    def __repr__(self) -> str: ...
-    def __str__(self) -> str: ...
+    def __eq__(self, value: object) -> bool: ...
+    def __hash__(self) -> int: ...
+    def __copy__(self) -> Self: ...
 
 @final
 class Segment:
@@ -52,8 +59,9 @@ class Segment:
     def __new__(cls, *, size: int, number: int, message_id: str) -> Segment:
         """Create a new instance of Segment."""
 
-    def __repr__(self) -> str: ...
-    def __str__(self) -> str: ...
+    def __eq__(self, value: object) -> bool: ...
+    def __hash__(self) -> int: ...
+    def __copy__(self) -> Self: ...
 
 @final
 class File:
@@ -85,8 +93,9 @@ class File:
     ) -> File:
         """Create a new instance of File."""
 
-    def __repr__(self) -> str: ...
-    def __str__(self) -> str: ...
+    def __eq__(self, value: object) -> bool: ...
+    def __hash__(self) -> int: ...
+    def __copy__(self) -> Self: ...
     @property
     def size(self) -> int:
         """Size of the file calculated from the sum of segment sizes."""
@@ -169,8 +178,6 @@ class Nzb:
     def __new__(cls, *, meta: Meta, files: Sequence[File]) -> Nzb:
         """Create a new instance of NZB."""
 
-    def __repr__(self) -> str: ...
-    def __str__(self) -> str: ...
     @classmethod
     def from_str(cls, nzb: str, /) -> Nzb:
         """

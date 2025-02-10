@@ -87,4 +87,8 @@ impl Meta {
     pub fn __str__(&self) -> String {
         self.__repr__()
     }
+
+    pub fn __copy__(&self) -> Self {
+        self.clone()
+    }
 }

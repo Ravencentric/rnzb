@@ -47,7 +47,8 @@ dev = [
 line-length = 120
 
 [tool.ruff.lint]
-extend-select = ["I", "RUF", "UP", "N", "D4"]
+extend-select = ["I", "RUF", "UP", "N", "D4", "PYI"]
+ignore = ["PYI021"]
 fixable = ["ALL"]
 
 [tool.ruff.lint.extend-per-file-ignores]

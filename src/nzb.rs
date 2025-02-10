@@ -73,6 +73,10 @@ impl Nzb {
         self.__repr__()
     }
 
+    pub fn __copy__(&self) -> Self {
+        self.clone()
+    }
+
     #[classmethod]
     #[pyo3(signature = (nzb, /))]
     #[allow(unused_variables)]

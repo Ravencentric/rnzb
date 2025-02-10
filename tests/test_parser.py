@@ -229,19 +229,23 @@ def test_multi_rar_nzb() -> None:
 
 @pytest.mark.skipif(
     sys.version_info < (3, 10)  # nzb doesn't support < 3.10
-    or sys.version_info > (3, 12)  # nzb depends on msgspec, which does not publish wheels for 3.13 free-threaded.
-    or sys.implementation.name != "cpython",  # nzb depends on msgspec, which does not publish wheels for pypy.
+    and sys.version_info > (3, 12)  # nzb depends on msgspec, which does not publish wheels for 3.13 free-threaded.
+    and sys.implementation.name != "cpython",  # nzb depends on msgspec, which does not publish wheels for pypy.
+    reason="This test requires 'nzb' which depends on 'msgspec' and 'msgspec' does not publish wheels for pypy or 3.13t.",
 )
 @pytest.mark.parametrize(
     "nzb_file",
     [
         NZB_DIR / "spec_example.nzb",
+        NZB_DIR / "spec_example.nzb.gz",
         NZB_DIR / "big_buck_bunny.nzb",
-        NZB_DIR / "valid_nzb_with_bad_segments.nzb",
+        NZB_DIR / "big_buck_bunny.nzb.gz",
         NZB_DIR / "bad_subject.nzb",
         NZB_DIR / "non_standard_meta.nzb",
         NZB_DIR / "one_rar_file.nzb",
         NZB_DIR / "multi_rar.nzb",
+        NZB_DIR / "valid_nzb_with_bad_segments.nzb",
+        NZB_DIR / "valid_nzb_with_bad_segments.nzb.gz",
     ],
     ids=lambda x: x.name,
 )

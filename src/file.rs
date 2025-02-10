@@ -116,6 +116,10 @@ impl File {
         self.__repr__()
     }
 
+    pub fn __copy__(&self) -> Self {
+        self.clone()
+    }
+
     // Size of the file calculated from the sum of segment sizes.
     #[getter]
     pub fn size(&self) -> u64 {
