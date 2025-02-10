@@ -14,14 +14,34 @@ Python bindings to the [nzb-rs](https://crates.io/crates/nzb-rs) library - a [sp
 
 ## Table Of Contents
 
+- [About](#about)
 - [Installation](#installation)
-- [Usage](#usage)
 - [Related projects](#related-projects)
 - [Performance](#performance)
 - [Supported platforms](#supported-platforms)
 - [Building from source](#building-from-source)
 - [License](#license)
 - [Contributing](#contributing)
+
+## About
+
+`rnzb.Nzb` is a drop-in replacement for [`nzb.Nzb`](https://nzb.ravencentric.cc/api-reference/parser/#nzb.Nzb).
+
+For documentation and usage examples, refer to the [`nzb`](https://pypi.org/project/nzb) library's resources:
+
+* [Tutorial](https://nzb.ravencentric.cc/tutorial/)
+* [API Reference](https://nzb.ravencentric.cc/api-reference/parser/)
+
+### Error handling
+
+* `rnzb` uses the same error type (`rnzb.InvalidNzbError`) as `nzb` but it's not a drop-in replacement. 
+* Error messages will be largely similar to `nzb`'s, though not guaranteed to be identical in every case.
+* `rnzb.InvalidNzbError` is a simpler exception (See [PyO3/pyo3#295](https://github.com/PyO3/pyo3/issues/295) for why). Its implementation is effectively: 
+  ```python
+  class InvalidNzbError(Exception): pass
+  ```
+  This means that it's lacking custom attributes like `.message` found in `nzb`'s version. Code relying on such attributes on `nzb.InvalidNzbError` will require adjustment. Consider using the standard exception message (`str(e)`) to achieve the same result.
+* `rnzb` is designed to *only ever* raise explicitly documented errors for each function. Undocumented errors should be reported as bugs.
 
 ## Installation
 
@@ -30,27 +50,6 @@ Python bindings to the [nzb-rs](https://crates.io/crates/nzb-rs) library - a [sp
 ```bash
 pip install rnzb
 ```
-
-## Usage
-
-```py
-from rnzb import Nzb
-
-nzb = Nzb.from_file("big_buck_bunny.nzb")
-
-print(f"{nzb.file.name} ({nzb.meta.category}) was posted on {nzb.file.posted_at} by {nzb.file.poster}.")
-#> Big Buck Bunny - S01E01.mkv (TV) was posted on 2024-01-28 11:18:28+00:00 by John <nzb@nowhere.example>.
-
-for file in nzb.files:
-    print(file.name)
-    #> Big Buck Bunny - S01E01.mkv
-    #> Big Buck Bunny - S01E01.mkv.par2
-    #> Big Buck Bunny - S01E01.mkv.vol00+01.par2
-    #> Big Buck Bunny - S01E01.mkv.vol01+02.par2
-    #> Big Buck Bunny - S01E01.mkv.vol03+04.par2
-```
-
-For more details, check out the [API reference](https://rnzb.ravencentric.cc/).
 
 ## Related projects
 
@@ -65,24 +64,42 @@ Considering this is the fourth library for parsing a file format that almost nob
 
 ## Performance
 
-Although [`nzb`](https://pypi.org/project/nzb) is already quite fast due to its use of the non-validating C-based [expat](https://docs.python.org/3/library/pyexpat.html) parser from Python's standard library, `rnzb` offers even better performance, being approximately 8 times faster than `nzb`.
+Although [`nzb`](https://pypi.org/project/nzb) is already quite fast due to its use of C-based [expat](https://docs.python.org/3/library/pyexpat.html) parser from Python's standard library, `rnzb` offers even better performance, being approximately 5 times faster than `nzb`.
 
 ```console
 $ hyperfine --warmup 1 "python test_nzb.py" "python test_rnzb.py"
 Benchmark 1: python test_nzb.py
-  Time (mean ± σ):      6.306 s ±  0.075 s    [User: 5.992 s, System: 0.225 s]
-  Range (min … max):    6.225 s …  6.478 s    10 runs
+  Time (mean ± σ):      3.848 s ±  0.023 s    [User: 3.561 s, System: 0.248 s]
+  Range (min … max):    3.816 s …  3.885 s    10 runs
 
 Benchmark 2: python test_rnzb.py
-  Time (mean ± σ):     767.5 ms ±   3.4 ms    [User: 591.9 ms, System: 163.8 ms]
-  Range (min … max):   762.2 ms … 772.7 ms    10 runs
+  Time (mean ± σ):     756.4 ms ±   3.5 ms    [User: 595.3 ms, System: 149.7 ms]
+  Range (min … max):   749.0 ms … 761.8 ms    10 runs
 
 Summary
   python test_rnzb.py ran
-    8.22 ± 0.10 times faster than python test_nzb.py
+    5.09 ± 0.04 times faster than python test_nzb.py
 ```
 
-The above benchmark was performed by looping over 10 random NZB files I had lying around. This benchmark isn't super scientific, but it gives a pretty good idea of the performance difference.
+The above benchmark was performed by looping over 10 random NZB files I had lying around, with the following code:
+
+```console
+$ cat test_nzb.py
+from pathlib import Path
+from nzb import Nzb
+
+for p in Path.cwd().glob("*.nzb"):
+    Nzb.from_file(p)
+
+$ cat test_rnzb.py
+from pathlib import Path
+from rnzb import Nzb
+
+for p in Path.cwd().glob("*.nzb"):
+    Nzb.from_file(p)
+```
+
+This benchmark isn't super scientific, but it gives a pretty good idea of the performance difference.
 
 ## Supported platforms
 
