@@ -878,7 +878,7 @@ dev = [
     { name = "mkdocstrings", extra = ["python"] },
     { name = "mypy" },
     { name = "nox" },
-    { name = "nzb", marker = "python_full_version >= '3.10'" },
+    { name = "nzb", marker = "python_full_version >= '3.10' and implementation_name == 'cpython'" },
     { name = "pytest" },
     { name = "ruff" },
 ]
@@ -892,7 +892,7 @@ lint = [
     { name = "ruff" },
 ]
 test = [
-    { name = "nzb", marker = "python_full_version >= '3.10'" },
+    { name = "nzb", marker = "python_full_version >= '3.10' and implementation_name == 'cpython'" },
     { name = "pytest" },
 ]
 
@@ -906,7 +906,7 @@ dev = [
     { name = "mkdocstrings", extras = ["python"], specifier = ">=0.27.0" },
     { name = "mypy", specifier = ">=1.14.1" },
     { name = "nox", specifier = ">=2024.10.9" },
-    { name = "nzb", marker = "python_full_version >= '3.10'", specifier = ">=0.4.0" },
+    { name = "nzb", marker = "python_full_version >= '3.10' and implementation_name == 'cpython'", specifier = ">=0.4.0" },
     { name = "pytest", specifier = ">=8.3.4" },
     { name = "ruff", specifier = ">=0.9.2" },
 ]
@@ -920,7 +920,7 @@ lint = [
     { name = "ruff", specifier = ">=0.9.2" },
 ]
 test = [
-    { name = "nzb", marker = "python_full_version >= '3.10'", specifier = ">=0.4.0" },
+    { name = "nzb", marker = "python_full_version >= '3.10' and implementation_name == 'cpython'", specifier = ">=0.4.0" },
     { name = "pytest", specifier = ">=8.3.4" },
 ]
 
