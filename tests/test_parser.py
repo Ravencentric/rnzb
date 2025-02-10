@@ -228,7 +228,9 @@ def test_multi_rar_nzb() -> None:
 
 
 @pytest.mark.skipif(
-    sys.version_info < (3, 10) or sys.implementation.name != "cpython", reason="requires CPython 3.10 or higher"
+    sys.version_info < (3, 10)  # nzb doesn't support < 3.10
+    or sys.version_info > (3, 12)  # nzb depends on msgspec, which does not publish wheels for 3.13 free-threaded.
+    or sys.implementation.name != "cpython",  # nzb depends on msgspec, which does not publish wheels for pypy.
 )
 @pytest.mark.parametrize(
     "nzb_file",
