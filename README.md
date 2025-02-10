@@ -1,7 +1,6 @@
 # rnzb
 
 [![Tests](https://img.shields.io/github/actions/workflow/status/Ravencentric/rnzb/tests.yml?label=tests)](https://github.com/Ravencentric/rnzb/actions/workflows/tests.yml)
-[![Docs](https://img.shields.io/github/actions/workflow/status/Ravencentric/rnzb/docs.yml?label=docs)](https://github.com/Ravencentric/rnzb/actions/workflows/docs.yml)
 [![Build](https://img.shields.io/github/actions/workflow/status/Ravencentric/rnzb/release.yml?label=build)](https://github.com/Ravencentric/rnzb/actions/workflows/release.yml)
 ![PyPI - Types](https://img.shields.io/pypi/types/rnzb)
 ![License](https://img.shields.io/pypi/l/rnzb?color=success)
@@ -44,7 +43,7 @@ For documentation and usage examples, refer to the [`nzb`](https://pypi.org/proj
   
   This means that it's lacking custom attributes like `.message` found in `nzb`'s version. Code relying on such attributes on `nzb.InvalidNzbError` will require adjustment. Consider using the standard exception message (`str(e)`) to achieve the same result.
 
-- `rnzb` is designed to *only ever* raise explicitly documented errors for each function. Undocumented errors should be reported as bugs.
+- `rnzb` will *only ever* raise explicitly documented errors for each function. Undocumented errors should be reported as bugs.
 
 ## Installation
 

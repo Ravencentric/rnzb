@@ -3,14 +3,14 @@ use crate::file::File;
 use crate::meta::Meta;
 use crate::tuple::Tuple;
 use nzb_rs::Nzb as RustNzb;
+use pyo3::exceptions::PyFileNotFoundError;
 use pyo3::prelude::*;
 use pyo3::types::PyType;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 use std::fmt::Display;
-use std::path::PathBuf;
 use std::io;
-use pyo3::exceptions::PyFileNotFoundError;
+use std::path::PathBuf;
 
 // Python wrapper class for NZB
 #[pyclass(module = "rnzb", frozen, eq, hash)]
@@ -90,11 +90,11 @@ impl Nzb {
         match RustNzb::parse_file(nzb) {
             Ok(nzb) => Ok(Nzb::from(nzb)),
             Err(err) => match err {
-                    nzb_rs::ParseNzbFileError::Io { source, file } if source.kind() == io::ErrorKind::NotFound => {
-                        Err(PyFileNotFoundError::new_err(file))
-                    }
-                    _ => Err(InvalidNzbError::new_err(err.to_string())),
-                },
+                nzb_rs::ParseNzbFileError::Io { source, file } if source.kind() == io::ErrorKind::NotFound => {
+                    Err(PyFileNotFoundError::new_err(file))
+                }
+                _ => Err(InvalidNzbError::new_err(err.to_string())),
+            },
         }
     }
 
