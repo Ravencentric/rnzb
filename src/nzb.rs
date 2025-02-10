@@ -8,8 +8,9 @@ use pyo3::types::PyType;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 use std::fmt::Display;
-use std::fs;
 use std::path::PathBuf;
+use std::io;
+use pyo3::exceptions::PyFileNotFoundError;
 
 // Python wrapper class for NZB
 #[pyclass(module = "rnzb", frozen, eq, hash)]
@@ -78,7 +79,7 @@ impl Nzb {
     pub fn from_str(cls: &Bound<'_, PyType>, nzb: &str) -> PyResult<Nzb> {
         match RustNzb::parse(nzb) {
             Ok(nzb) => Ok(Nzb::from(nzb)),
-            Err(e) => Err(InvalidNzbError::new_err(e.message)),
+            Err(e) => Err(InvalidNzbError::new_err(e.to_string())),
         }
     }
 
@@ -86,10 +87,14 @@ impl Nzb {
     #[pyo3(signature = (nzb, /))]
     #[allow(unused_variables)]
     pub fn from_file(cls: &Bound<'_, PyType>, nzb: PathBuf) -> PyResult<Nzb> {
-        let content = fs::read_to_string(nzb).map_err(|e| InvalidNzbError::new_err(e.to_string()))?;
-        match RustNzb::parse(&content) {
+        match RustNzb::parse_file(nzb) {
             Ok(nzb) => Ok(Nzb::from(nzb)),
-            Err(e) => Err(InvalidNzbError::new_err(e.message)),
+            Err(err) => match err {
+                    nzb_rs::ParseNzbFileError::Io { source, file } if source.kind() == io::ErrorKind::NotFound => {
+                        Err(PyFileNotFoundError::new_err(file))
+                    }
+                    _ => Err(InvalidNzbError::new_err(err.to_string())),
+                },
         }
     }
 
