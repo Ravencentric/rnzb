@@ -196,8 +196,8 @@ class Nzb:
     @classmethod
     def from_file(cls, nzb: str | PathLike[str], /) -> Nzb:
         """
-        Parse the given file into an [`Nzb`][rnzb.Nzb].
-        Note that this will read the entire file into memory.
+        Parse the given file into an [`Nzb`][nzb.Nzb].
+        Handles both regular and gzipped NZB files.
 
         Parameters
         ----------
@@ -211,8 +211,11 @@ class Nzb:
 
         Raises
         ------
+        FileNotFoundError
+            Raised if the specified file doesn't exist.
+
         InvalidNzbError
-            Raised if the contents of the file are not valid UTF-8 or if the NZB is invalid.
+            Raised if the NZB is invalid.
 
         """
 
