@@ -66,7 +66,7 @@ Considering this is the fourth library for parsing a file format that almost nob
 
 ## Performance
 
-Although [`nzb`](https://pypi.org/project/nzb) is already quite fast due to its use of C-based [expat](https://docs.python.org/3/library/pyexpat.html) parser from Python's standard library, `rnzb` offers even better performance, being approximately 5 times faster than `nzb`.
+Although [`nzb`](https://pypi.org/project/nzb) is already quite fast due to its use of the C-based [expat](https://docs.python.org/3/library/pyexpat.html) parser from Python's standard library, `rnzb` offers even better performance, being approximately 5 times faster than `nzb`.
 
 ```console
 $ hyperfine --warmup 1 "python test_nzb.py" "python test_rnzb.py"
