@@ -217,16 +217,16 @@ wheels = [
 
 [[package]]
 name = "nzb"
-version = "0.4.1"
+version = "0.4.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "msgspec", marker = "python_full_version >= '3.10'" },
     { name = "natsort", marker = "python_full_version >= '3.10'" },
     { name = "xmltodict", marker = "python_full_version >= '3.10'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/33/68/cf7eda7d7c3b35f113cf2923802dc1531023a3c0d105677c67a3a3f24a99/nzb-0.4.1.tar.gz", hash = "sha256:68469f12a223ed9dd2cb7680a1fcb6eaa0dbde420656b3d0b39e3b15aa6a4bd2", size = 79777 }
+sdist = { url = "https://files.pythonhosted.org/packages/e4/4a/3a35a38fd1f16989471ad1f766758c9534e7826799901f35ec66edc4f28e/nzb-0.4.2.tar.gz", hash = "sha256:c61f72cab5b55c5f3bf56192253431c42c83d23546b249620d8abfa4b7a51a28", size = 81257 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2b/b8/8d175413abe287668cff0d7184cb274ff10fd36ed1fdb32c64eb926a81ce/nzb-0.4.1-py3-none-any.whl", hash = "sha256:c4176f3725ef204273e462e1e012d74dbc76fb954b730679d6a1bcc07235893f", size = 15765 },
+    { url = "https://files.pythonhosted.org/packages/1e/75/11e422ff9bc0871e99a819b310919427a30fd2d2404f94b33e4de4f56e6c/nzb-0.4.2-py3-none-any.whl", hash = "sha256:0a3fc31db6bde4c77d75c3d275acaa12109477a0f346dec9837c1d34a8106f81", size = 15951 },
 ]
 
 [[package]]
@@ -275,7 +275,7 @@ wheels = [
 
 [[package]]
 name = "rnzb"
-version = "0.4.0"
+version = "0.4.1"
 source = { editable = "." }
 
 [package.dev-dependencies]
@@ -303,7 +303,7 @@ dev = [
     { name = "maturin", specifier = ">=1.8.1" },
     { name = "mypy", specifier = ">=1.14.1" },
     { name = "nox", specifier = ">=2024.10.9" },
-    { name = "nzb", marker = "python_full_version >= '3.10' and python_full_version < '3.13' and implementation_name == 'cpython'", specifier = ">=0.4.1" },
+    { name = "nzb", marker = "python_full_version >= '3.10' and python_full_version < '3.13' and implementation_name == 'cpython'", specifier = ">=0.4.2" },
     { name = "pytest", specifier = ">=8.3.4" },
     { name = "ruff", specifier = ">=0.9.2" },
 ]
@@ -312,7 +312,7 @@ lint = [
     { name = "ruff", specifier = ">=0.9.2" },
 ]
 test = [
-    { name = "nzb", marker = "python_full_version >= '3.10' and python_full_version < '3.13' and implementation_name == 'cpython'", specifier = ">=0.4.1" },
+    { name = "nzb", marker = "python_full_version >= '3.10' and python_full_version < '3.13' and implementation_name == 'cpython'", specifier = ">=0.4.2" },
     { name = "pytest", specifier = ">=8.3.4" },
 ]
 
