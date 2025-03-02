@@ -49,6 +49,7 @@ def clean(session: nox.Session) -> None:
 @nox.session
 def lint(session: nox.Session) -> None:
     install(session)
+    session.run("mypy", ".")
 
     if os.getenv("CI"):
         # Do not modify files in CI, simply fail.
