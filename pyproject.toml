@@ -60,6 +60,10 @@ pretty = true
 files = ["rnzb.pyi", "tests/**/*.py"]
 enable_error_code = ["ignore-without-code"]
 
+[[tool.mypy.overrides]]
+module = ["nzb"]
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 addopts = ["-ra", "--showlocals", "--strict-markers", "--strict-config", "-v"]
 filterwarnings = ["error"]

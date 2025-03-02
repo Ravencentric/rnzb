@@ -4,25 +4,12 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'noxfile.py'
-      - '.github/workflows/tests.yml'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'src/**'
-      - 'tests/**'
-      - 'noxfile.py'
-      - '.github/workflows/tests.yml'
   workflow_dispatch:
 
 env:
   FORCE_COLOR: 1
+  UV_LOCKED: 1
 
-# https://learn.scientific-python.org/development/guides/gha-basic/#cancel-existing-runs
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -44,6 +31,7 @@ jobs:
               3.13
               pypy3.9
               pypy3.10
+              pypy3.11
 
       - uses: astral-sh/setup-uv@v5
         with:
