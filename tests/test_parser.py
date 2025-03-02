@@ -265,7 +265,7 @@ def test_multi_rar_nzb() -> None:
     ids=lambda x: x.name,
 )
 def test_json_roundtrip(nzb_file: Path) -> None:
-    from nzb import Nzb as PurePythonNzb
+    from nzb import Nzb as PurePythonNzb  # pyright: ignore
 
     original = PurePythonNzb.from_file(nzb_file)
     original_rnzb = Nzb.from_file(nzb_file)
