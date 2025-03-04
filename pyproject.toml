@@ -81,7 +81,7 @@ test-groups = ["test"]
 test-command = "pytest {package}/tests"
 
 [tool.cibuildwheel.linux]
-before-all = "curl -sSf https://sh.rustup.rs | sh -s -- -y"
+before-all = "curl -sSf https://sh.rustup.rs | sh -s -- -y && rustup toolchain install"
 environment = { PATH = "$HOME/.cargo/bin:$PATH" }
 
 manylinux-x86_64-image = "manylinux_2_28"
