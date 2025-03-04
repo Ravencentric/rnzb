@@ -81,7 +81,7 @@ test-groups = ["test"]
 test-command = "pytest {package}/tests"
 
 [tool.cibuildwheel.linux]
-before-all = "curl -sSf https://sh.rustup.rs | sh -s -- -y && rustup toolchain install"
+before-all = "curl -sSf https://sh.rustup.rs | sh -s -- -y && rustup show active-toolchain &>/dev/null || rustup toolchain install"
 environment = { PATH = "$HOME/.cargo/bin:$PATH" }
 
 manylinux-x86_64-image = "manylinux_2_28"
@@ -92,11 +92,11 @@ manylinux-s390x-image = "manylinux_2_28"
 manylinux-pypy_aarch64-image = "manylinux_2_28"
 
 [tool.cibuildwheel.macos]
-before-all = "rustup toolchain install"
+before-all = "rustup show active-toolchain &>/dev/null || rustup toolchain install"
 environment = { MACOSX_DEPLOYMENT_TARGET = "11.0" }
 
 [tool.cibuildwheel.windows]
-before-all = "rustup toolchain install"
+before-all = "rustup show active-toolchain || rustup toolchain install"
 
 [build-system]
 requires = ["maturin>=1.8,<2.0"]
