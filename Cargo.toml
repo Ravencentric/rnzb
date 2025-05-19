@@ -16,7 +16,7 @@ lto = "fat"
 [dependencies]
 chrono = { version = "0.4.41", features = ["serde"] }
 nzb-rs = { version = "0.5.8", features = ["serde"] }
-pyo3 = { version = "0.24.2", features = [
+pyo3 = { version = "0.25.0", features = [
     "extension-module",
     "chrono",
     "generate-import-lib",
