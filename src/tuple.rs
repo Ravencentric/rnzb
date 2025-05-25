@@ -42,7 +42,11 @@ impl<T: Debug> Debug for Tuple<T> {
         write!(
             f,
             "({})",
-            self.0.iter().map(|x| format!("{:?}", x)).collect::<Vec<_>>().join(", ")
+            self.0
+                .iter()
+                .map(|x| format!("{:?}", x))
+                .collect::<Vec<_>>()
+                .join(", ")
         )
     }
 }

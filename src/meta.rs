@@ -72,7 +72,12 @@ impl From<Meta> for RustMeta {
 impl Meta {
     #[new]
     #[pyo3(signature = (*, title=None, passwords=Vec::new(), tags=Vec::new(), category=None))]
-    pub fn __new__(title: Option<String>, passwords: Vec<String>, tags: Vec<String>, category: Option<String>) -> Self {
+    pub fn __new__(
+        title: Option<String>,
+        passwords: Vec<String>,
+        tags: Vec<String>,
+        category: Option<String>,
+    ) -> Self {
         Self {
             title,
             passwords: passwords.into(),

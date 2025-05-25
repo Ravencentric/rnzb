@@ -76,7 +76,11 @@ impl From<File> for RustFile {
             f.posted_at,
             f.subject.clone(),
             f.groups.0.clone(),
-            f.segments.0.into_iter().map(Into::into).collect::<Vec<RustSegment>>(),
+            f.segments
+                .0
+                .into_iter()
+                .map(Into::into)
+                .collect::<Vec<RustSegment>>(),
         )
     }
 }
@@ -103,7 +107,10 @@ impl File {
                 posted_at,
                 subject,
                 groups,
-                segments.into_iter().map(Into::into).collect::<Vec<RustSegment>>(),
+                segments
+                    .into_iter()
+                    .map(Into::into)
+                    .collect::<Vec<RustSegment>>(),
             ),
         }
     }

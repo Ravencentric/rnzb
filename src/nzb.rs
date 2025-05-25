@@ -44,7 +44,13 @@ impl From<RustNzb> for Nzb {
     fn from(n: RustNzb) -> Self {
         Self {
             meta: Meta::from(n.meta.clone()),
-            files: n.files.clone().into_iter().map(Into::into).collect::<Vec<_>>().into(),
+            files: n
+                .files
+                .clone()
+                .into_iter()
+                .map(Into::into)
+                .collect::<Vec<_>>()
+                .into(),
             inner: n,
         }
     }
@@ -94,7 +100,9 @@ impl Nzb {
         match RustNzb::parse_file(nzb) {
             Ok(nzb) => Ok(Nzb::from(nzb)),
             Err(err) => match err {
-                nzb_rs::ParseNzbFileError::Io { source, file } if source.kind() == io::ErrorKind::NotFound => {
+                nzb_rs::ParseNzbFileError::Io { source, file }
+                    if source.kind() == io::ErrorKind::NotFound =>
+                {
                     Err(PyFileNotFoundError::new_err(file))
                 }
                 _ => Err(InvalidNzbError::new_err(err.to_string())),
@@ -106,7 +114,8 @@ impl Nzb {
     #[allow(unused_variables)]
     #[pyo3(signature = (json, /))]
     pub fn from_json(cls: &Bound<'_, PyType>, json: &str) -> PyResult<Nzb> {
-        let nzb: RustNzb = serde_json::from_str(json).map_err(|e| InvalidNzbError::new_err(e.to_string()))?;
+        let nzb: RustNzb =
+            serde_json::from_str(json).map_err(|e| InvalidNzbError::new_err(e.to_string()))?;
         Ok(Nzb::from(nzb))
     }
 
