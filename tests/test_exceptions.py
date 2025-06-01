@@ -58,7 +58,9 @@ valid_xml_but_invalid_nzb = """\
             "^The NZB document is not valid XML and could not be parsed:",
             id="truncated_xml",
         ),
-        pytest.param(valid_xml_but_invalid_nzb, INVALID_NZB_ERROR_SEGMENTS_ELEMENT, id="missing_segments"),
+        pytest.param(
+            valid_xml_but_invalid_nzb, INVALID_NZB_ERROR_SEGMENTS_ELEMENT, id="missing_segments"
+        ),
     ],
 )
 def test_parsing_invalid_nzb(input_xml: str, expected_error: str) -> None:
@@ -115,7 +117,9 @@ def test_nzb_with_bad_file_date() -> None:
         </file>
     </nzb>
     """).strip()
-    with pytest.raises(InvalidNzbError, match=r"Invalid or missing required attribute 'date' in a 'file' element."):
+    with pytest.raises(
+        InvalidNzbError, match=r"Invalid or missing required attribute 'date' in a 'file' element."
+    ):
         Nzb.from_str(nzb)
 
 
@@ -142,7 +146,10 @@ def test_nzb_with_missing_file_poster() -> None:
         </file>
     </nzb>
     """).strip()
-    with pytest.raises(InvalidNzbError, match=r"Invalid or missing required attribute 'poster' in a 'file' element."):
+    with pytest.raises(
+        InvalidNzbError,
+        match=r"Invalid or missing required attribute 'poster' in a 'file' element.",
+    ):
         Nzb.from_str(nzb)
 
 
@@ -169,7 +176,10 @@ def test_nzb_with_missing_file_subject() -> None:
         </file>
     </nzb>
     """).strip()
-    with pytest.raises(InvalidNzbError, match=r"Invalid or missing required attribute 'subject' in a 'file' element."):
+    with pytest.raises(
+        InvalidNzbError,
+        match=r"Invalid or missing required attribute 'subject' in a 'file' element.",
+    ):
         Nzb.from_str(nzb)
 
 
