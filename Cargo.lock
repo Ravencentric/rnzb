@@ -252,9 +252,9 @@ dependencies = [
 
 [[package]]
 name = "nzb-rs"
-version = "0.5.8"
+version = "0.5.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ce9071d183d4094734d640609fbd6e954ae86463deaa40b55f8d09aa82c73e01"
+checksum = "d47a6a9bfa5fd727dc4ffc8934650e75dc0619ca7e9cc439b0c96217e73b2f28"
 dependencies = [
  "chrono",
  "dunce",
