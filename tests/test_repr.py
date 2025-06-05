@@ -1,77 +1,46 @@
+from datetime import datetime, timezone
 from pathlib import Path
 
-from rnzb import Nzb
+from rnzb import File, Meta, Nzb, Segment
 
 NZB_DIR = Path(__file__).parent.resolve() / "nzbs"
 
 
 def test_repr() -> None:
-    nzb = Nzb.from_file(NZB_DIR / "spec_example.nzb")
+    meta = Meta(title="Your File!", passwords=["secret"], tags=["HD"], category="TV")
     assert (
-        repr(nzb.meta)
-        == str(nzb.meta)
-        == 'Meta(title="Your File!", passwords=("secret",), tags=("HD",), category="TV")'
+        repr(meta)
+        == str(meta)
+        == "Meta(title='Your File!', passwords=('secret',), tags=('HD',), category='TV')"
     )
-    assert repr(nzb.meta.passwords) == str(nzb.meta.passwords) == "('secret',)"
-    assert repr(nzb.meta.tags) == str(nzb.meta.tags) == "('HD',)"
+
+    segment = Segment(size=1000, number=1, message_id="foobar")
+    assert repr(segment) == str(segment) == "Segment(size=1000, number=1, message_id='foobar')"
+
+    file = File(
+        poster="poster",
+        posted_at=datetime(2024, 6, 3, 1, 1, 1, tzinfo=timezone.utc),
+        subject="subject",
+        groups=["A", "B"],
+        segments=[segment],
+    )
+
     assert (
-        repr(nzb.file.segments[0])
-        == str(nzb.file.segments[0])
-        == 'Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com")'
+        repr(file)
+        == str(file)
+        == "File(poster='poster', posted_at='2024-06-03T01:01:01Z', subject='subject', groups=('A', 'B'), segments=(Segment(size=1000, number=1, message_id='foobar'),))"
     )
-    assert (
-        repr(nzb.file.segments)
-        == str(nzb.file.segments)
-        == '(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))'
-    )
-    assert (
-        repr(nzb.file)
-        == str(nzb.file)
-        == 'File(poster="Joe Bloggs <bloggs@nowhere.example>", posted_at="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.mojo", "alt.binaries.newzbin"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com")))'
-    )
-    assert (
-        repr(nzb.files)
-        == str(nzb.files)
-        == '(File(poster="Joe Bloggs <bloggs@nowhere.example>", posted_at="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.mojo", "alt.binaries.newzbin"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))),)'
-    )
+    nzb = Nzb(meta=meta, files=[file])
+    nzb2 = Nzb(meta=meta, files=[file, file, file])
+
     assert (
         repr(nzb)
         == str(nzb)
-        == 'Nzb(meta=Meta(title="Your File!", passwords=("secret",), tags=("HD",), category="TV"), files=(File(poster="Joe Bloggs <bloggs@nowhere.example>", posted_at="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.mojo", "alt.binaries.newzbin"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))),))'
+        == "Nzb(meta=Meta(title='Your File!', passwords=('secret',), tags=('HD',), category='TV'), files=(File(poster='poster', posted_at='2024-06-03T01:01:01Z', subject='subject', groups=('A', 'B'), segments=(Segment(size=1000, number=1, message_id='foobar'),)),))"
     )
 
-
-def test_repr_2() -> None:
-    nzb = Nzb.from_file(NZB_DIR / "spec_example_with_multiple_meta.nzb")
     assert (
-        repr(nzb.meta)
-        == str(nzb.meta)
-        == 'Meta(title="Your File!", passwords=(), tags=("HD", "1080p", "FLAC"), category="TV")'
-    )
-    assert repr(nzb.meta.passwords) == str(nzb.meta.passwords) == "()"
-    assert repr(nzb.meta.tags) == str(nzb.meta.tags) == "('HD', '1080p', 'FLAC')"
-    assert (
-        repr(nzb.file.segments[0])
-        == str(nzb.file.segments[0])
-        == 'Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com")'
-    )
-    assert (
-        repr(nzb.file.segments)
-        == str(nzb.file.segments)
-        == '(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))'
-    )
-    assert (
-        repr(nzb.file)
-        == str(nzb.file)
-        == 'File(poster="Joe Bloggs <bloggs@nowhere.example>", posted_at="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.mojo", "alt.binaries.newzbin"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com")))'
-    )
-    assert (
-        repr(nzb.files)
-        == str(nzb.files)
-        == '(File(poster="Joe Bloggs <bloggs@nowhere.example>", posted_at="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.mojo", "alt.binaries.newzbin"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))),)'
-    )
-    assert (
-        repr(nzb)
-        == str(nzb)
-        == 'Nzb(meta=Meta(title="Your File!", passwords=(), tags=("HD", "1080p", "FLAC"), category="TV"), files=(File(poster="Joe Bloggs <bloggs@nowhere.example>", posted_at="2003-12-17T15:28:02+00:00", subject="Here\'s your file!  abc-mr2a.r01 (1/2)", groups=("alt.binaries.mojo", "alt.binaries.newzbin"), segments=(Segment(size=102394, number=1, message_id="123456789abcdef@news.newzbin.com"), Segment(size=4501, number=2, message_id="987654321fedbca@news.newzbin.com"))),))'
+        repr(nzb2)
+        == str(nzb2)
+        == "Nzb(meta=Meta(title='Your File!', passwords=('secret',), tags=('HD',), category='TV'), files=(File(poster='poster', posted_at='2024-06-03T01:01:01Z', subject='subject', groups=('A', 'B'), segments=(Segment(size=1000, number=1, message_id='foobar'),)), File(poster='poster', posted_at='2024-06-03T01:01:01Z', subject='subject', groups=('A', 'B'), segments=(Segment(size=1000, number=1, message_id='foobar'),)), File(poster='poster', posted_at='2024-06-03T01:01:01Z', subject='subject', groups=('A', 'B'), segments=(Segment(size=1000, number=1, message_id='foobar'),))))"
     )

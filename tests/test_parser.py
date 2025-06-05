@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 import pytest
+import rnzb
 from rnzb import File, Nzb, Segment
 
 NZB_DIR = Path(__file__).parent.resolve() / "nzbs"
@@ -427,14 +428,8 @@ def test_multi_rar_nzb() -> None:
 
 
 @pytest.mark.skipif(
-    (
-        sys.version_info < (3, 10)  # nzb doesn't support < 3.10
-        or sys.version_info
-        >= (3, 13)  # nzb depends on msgspec, which does not publish wheels for 3.13 free-threaded.
-    )
-    or sys.implementation.name
-    != "cpython",  # nzb depends on msgspec, which does not publish wheels for pypy.
-    reason="This test requires 'nzb' which depends on 'msgspec' and 'msgspec' does not publish wheels for pypy or 3.13t.",
+    sys.version_info < (3, 10),
+    reason="This test requires 'nzb' which does not support python < 3.10",
 )
 @pytest.mark.parametrize(
     "nzb_file",
@@ -453,20 +448,13 @@ def test_multi_rar_nzb() -> None:
     ids=lambda x: x.name,
 )
 def test_json_roundtrip(nzb_file: Path) -> None:
-    from nzb import Nzb as PurePythonNzb  # pyright: ignore
+    import nzb
 
-    original = PurePythonNzb.from_file(nzb_file)
-    original_rnzb = Nzb.from_file(nzb_file)
+    _nzb = nzb.Nzb.from_file(nzb_file)
+    _rnzb = rnzb.Nzb.from_file(nzb_file)
 
-    serialized = original.to_json()
-    serialized_rnzb = original_rnzb.to_json()
+    # Test round-trip: rnzb.Nzb -> JSON -> nzb.Nzb
+    assert nzb.Nzb.from_json(_rnzb.to_json()) == _nzb
 
-    assert serialized == serialized_rnzb
-
-    deserialized = PurePythonNzb.from_json(serialized)
-    deserialized_rnzb = Nzb.from_json(serialized_rnzb)
-
-    assert original == deserialized
-    assert original_rnzb == deserialized_rnzb
-
-    assert deserialized.to_json(pretty=True) == deserialized_rnzb.to_json(pretty=True)
+    # Test round-trip: nzb.Nzb -> JSON -> rnzb.Nzb
+    assert rnzb.Nzb.from_json(_nzb.to_json(pretty=True)) == _rnzb

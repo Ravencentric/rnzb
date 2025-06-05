@@ -1,13 +1,7 @@
-import sys
 from collections.abc import Sequence
 from datetime import datetime
 from os import PathLike
 from typing import final
-
-if sys.version_info >= (3, 11):
-    from typing import Self
-else:
-    from typing_extensions import Self
 
 __all__ = ("File", "InvalidNzbError", "Meta", "Nzb", "Segment")
 
@@ -43,7 +37,6 @@ class Meta:
 
     def __eq__(self, value: object) -> bool: ...
     def __hash__(self) -> int: ...
-    def __copy__(self) -> Self: ...
 
 @final
 class Segment:
@@ -61,7 +54,6 @@ class Segment:
 
     def __eq__(self, value: object) -> bool: ...
     def __hash__(self) -> int: ...
-    def __copy__(self) -> Self: ...
 
 @final
 class File:
@@ -95,7 +87,6 @@ class File:
 
     def __eq__(self, value: object) -> bool: ...
     def __hash__(self) -> int: ...
-    def __copy__(self) -> Self: ...
     @property
     def size(self) -> int:
         """Size of the file calculated from the sum of segment sizes."""
@@ -180,7 +171,6 @@ class Nzb:
 
     def __eq__(self, value: object) -> bool: ...
     def __hash__(self) -> int: ...
-    def __copy__(self) -> Self: ...
     @classmethod
     def from_str(cls, nzb: str, /) -> Nzb:
         """
