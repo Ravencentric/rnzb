@@ -66,58 +66,22 @@ Considering this is the fourth library for parsing a file format that almost nob
 
 ## Performance
 
-Although [`nzb`](https://pypi.org/project/nzb) is already quite fast due to its use of the C-based [expat](https://docs.python.org/3/library/pyexpat.html) parser from Python's standard library, `rnzb` offers even better performance, being approximately 5 times faster than `nzb`.
+`rnzb` is approximately two to three times faster than [`nzb`](https://pypi.org/project/nzb/), depending on the NZB.
 
 ```console
-$ hyperfine --warmup 1 "python test_nzb.py" "python test_rnzb.py"
-Benchmark 1: python test_nzb.py
-  Time (mean ± σ):      3.848 s ±  0.023 s    [User: 3.561 s, System: 0.248 s]
-  Range (min … max):    3.816 s …  3.885 s    10 runs
+$ hyperfine --warmup 1 --shell=none ".venv/Scripts/python.exe -I -B test_nzb.py" ".venv/Scripts/python.exe -I -B test_rnzb.py"
+Benchmark 1: .venv/Scripts/python.exe -I -B test_nzb.py
+  Time (mean ± σ):     368.9 ms ±   3.1 ms    [User: 196.9 ms, System: 160.9 ms]
+  Range (min … max):   364.4 ms … 374.1 ms    10 runs
 
-Benchmark 2: python test_rnzb.py
-  Time (mean ± σ):     756.4 ms ±   3.5 ms    [User: 595.3 ms, System: 149.7 ms]
-  Range (min … max):   749.0 ms … 761.8 ms    10 runs
+Benchmark 2: .venv/Scripts/python.exe -I -B test_rnzb.py
+  Time (mean ± σ):     112.7 ms ±   1.2 ms    [User: 45.1 ms, System: 60.7 ms]
+  Range (min … max):   111.4 ms … 116.2 ms    26 runs
 
 Summary
-  python test_rnzb.py ran
-    5.09 ± 0.04 times faster than python test_nzb.py
+  .venv/Scripts/python.exe -I -B test_rnzb.py ran
+    3.27 ± 0.04 times faster than .venv/Scripts/python.exe -I -B test_nzb.py
 ```
-
-The above benchmark was performed by looping over 10 random NZB files I had lying around, with the following code:
-
-```console
-$ cat test_nzb.py
-from pathlib import Path
-from nzb import Nzb
-
-for p in Path.cwd().glob("*.nzb"):
-    Nzb.from_file(p)
-
-$ cat test_rnzb.py
-from pathlib import Path
-from rnzb import Nzb
-
-for p in Path.cwd().glob("*.nzb"):
-    Nzb.from_file(p)
-```
-
-This benchmark isn't super scientific, but it gives a pretty good idea of the performance difference.
-
-## Supported platforms
-
-Refer to the following table for the platforms and Python versions for which `rnzb` publishes prebuilt wheels:
-
-| Platform                            | CPython 3.9-3.13 | CPython 3.13 (t) | PyPy 3.9-3.10 |
-| ----------------------------------- | ---------------- | ---------------- | ------------- |
-| 🐧 Linux (`x86_64`, `glibc>=2.28`)  | ✅               | ✅               | ✅            |
-| 🐧 Linux (`x86_64`, `musl>=1.2`)    | ✅               | ✅               | ✅            |
-| 🐧 Linux (`aarch64`, `glibc>=2.28`) | ✅               | ✅               | ✅            |
-| 🐧 Linux (`aarch64`, `musl>=1.2`)   | ✅               | ✅               | ✅            |
-| 🪟 Windows (`x86_64`)               | ✅               | ✅               | ✅            |
-| 🍏 macOS (`x86_64`)                 | ✅               | ✅               | ✅            |
-| 🍏 macOS (`arm64`)                  | ✅               | ✅               | ✅            |
-
-The library itself is not inherently tied to any specific platform or Python version. The available wheels are based on what can be (reasonably) built using GitHub Actions.
 
 ## Building from source
 
