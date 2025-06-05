@@ -17,23 +17,22 @@ Python bindings to the [nzb-rs](https://crates.io/crates/nzb-rs) library - a [sp
 - [Installation](#installation)
 - [Related projects](#related-projects)
 - [Performance](#performance)
-- [Supported platforms](#supported-platforms)
 - [Building from source](#building-from-source)
 - [License](#license)
 - [Contributing](#contributing)
 
 ## About
 
-`rnzb.Nzb` is a drop-in replacement for [`nzb.Nzb`](https://nzb.ravencentric.cc/api-reference/parser/#nzb.Nzb).
+`rnzb.Nzb` is a drop-in replacement for [`nzb.Nzb`](https://ravencentric.cc/nzb/api-reference/parser/#nzb.Nzb).
 
 For documentation and usage examples, refer to the [`nzb`](https://pypi.org/project/nzb) library's resources:
 
-- [Tutorial](https://nzb.ravencentric.cc/tutorial/)
-- [API Reference](https://nzb.ravencentric.cc/api-reference/parser/)
+- [Tutorial](https://ravencentric.cc/nzb/tutorial/)
+- [API Reference](https://ravencentric.cc/nzb/api-reference/parser/)
 
 ### Error handling
 
-- `rnzb` uses the same error type (`rnzb.InvalidNzbError`) as `nzb` but it's not a drop-in replacement.
+- `rnzb.InvalidNzbError` is named identically to `nzb.InvalidNzbError`, but it's not a drop-in replacement.
 - Error messages will be largely similar to `nzb`'s, though not guaranteed to be identical in every case.
 - `rnzb.InvalidNzbError` is a simpler exception (See [PyO3/pyo3#295](https://github.com/PyO3/pyo3/issues/295) for why). Its implementation is effectively:
   
@@ -42,7 +41,6 @@ For documentation and usage examples, refer to the [`nzb`](https://pypi.org/proj
   ```
   
   This means that it's lacking custom attributes like `.message` found in `nzb`'s version. Code relying on such attributes on `nzb.InvalidNzbError` will require adjustment. Consider using the standard exception message (`str(e)`) to achieve the same result.
-
 - `rnzb` will *only ever* raise explicitly documented errors for each function. Undocumented errors should be reported as bugs.
 
 ## Installation
