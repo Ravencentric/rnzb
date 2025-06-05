@@ -2,6 +2,7 @@ mod exception;
 mod file;
 mod meta;
 mod nzb;
+mod repr;
 mod segment;
 mod tuple;
 
@@ -10,7 +11,6 @@ use crate::file::File;
 use crate::meta::Meta;
 use crate::nzb::Nzb;
 use crate::segment::Segment;
-use crate::tuple::Tuple;
 use pyo3::prelude::*;
 
 #[pymodule(gil_used = false)]
@@ -22,7 +22,7 @@ fn rnzb(py: Python<'_>, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add("InvalidNzbError", py.get_type::<InvalidNzbError>())?;
     m.add(
         "__all__",
-        Tuple::from(vec!["File", "InvalidNzbError", "Meta", "Nzb", "Segment"]),
+        ("File", "InvalidNzbError", "Meta", "Nzb", "Segment"),
     )?;
     Ok(())
 }

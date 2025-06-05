@@ -1,58 +1,37 @@
-use nzb_rs::Segment as RustSegment;
 use pyo3::prelude::*;
 use serde::{Deserialize, Serialize};
-use std::fmt::{Debug, Display};
 
-// Python wrapper class for RustSegment
+use crate::repr::PyRepr;
+
 #[pyclass(module = "rnzb", frozen, eq, hash)]
 #[derive(Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct Segment {
-    #[pyo3(get)]
-    pub size: u32,
-    #[pyo3(get)]
-    pub number: u32,
-    #[pyo3(get)]
-    pub message_id: String,
-}
+#[serde(transparent)]
+pub struct Segment(nzb_rs::Segment);
 
-// Implement Python-esque debug
-impl Debug for Segment {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "Segment(size={}, number={}, message_id={:?})",
-            self.size, self.number, self.message_id
-        )
+impl From<nzb_rs::Segment> for Segment {
+    fn from(s: nzb_rs::Segment) -> Self {
+        Self(s)
     }
 }
 
-// Implement Python-esque display
-// It's identical to Debug
-impl Display for Segment {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        Debug::fmt(&self, f)
-    }
-}
-
-// Implement conversion from RustSegment to Segment
-impl From<RustSegment> for Segment {
-    fn from(s: RustSegment) -> Self {
-        Self {
-            size: s.size,
-            number: s.number,
-            message_id: s.message_id.clone(),
-        }
-    }
-}
-
-// Implement conversion from Segment to RustSegment
-impl From<Segment> for RustSegment {
+impl From<Segment> for nzb_rs::Segment {
     fn from(s: Segment) -> Self {
         Self {
-            size: s.size,
-            number: s.number,
-            message_id: s.message_id,
+            size: s.size(),
+            number: s.number(),
+            message_id: s.message_id().to_owned(),
         }
+    }
+}
+
+impl PyRepr for Segment {
+    fn pyrepr(&self) -> String {
+        format!(
+            "Segment(size={}, number={}, message_id={})",
+            self.size().pyrepr(),
+            self.number().pyrepr(),
+            self.message_id().pyrepr()
+        )
     }
 }
 
@@ -61,22 +40,29 @@ impl Segment {
     #[new]
     #[pyo3(signature = (*, size, number, message_id))]
     pub fn __new__(size: u32, number: u32, message_id: String) -> Self {
-        Self {
+        Self(nzb_rs::Segment {
             size,
             number,
             message_id,
-        }
+        })
+    }
+
+    #[getter]
+    pub fn size(&self) -> u32 {
+        self.0.size
+    }
+
+    #[getter]
+    pub fn number(&self) -> u32 {
+        self.0.number
+    }
+
+    #[getter]
+    pub fn message_id(&self) -> &str {
+        &self.0.message_id
     }
 
     pub fn __repr__(&self) -> String {
-        format!("{:?}", self)
-    }
-
-    pub fn __str__(&self) -> String {
-        self.__repr__()
-    }
-
-    pub fn __copy__(&self) -> Self {
-        self.clone()
+        self.pyrepr()
     }
 }

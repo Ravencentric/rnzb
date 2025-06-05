@@ -1,70 +1,39 @@
-use crate::tuple::Tuple;
-use nzb_rs::Meta as RustMeta;
 use pyo3::prelude::*;
 use serde::{Deserialize, Serialize};
-use std::fmt::{Debug, Display};
 
-// Python wrapper class for Meta
+use crate::{repr::PyRepr, tuple::Tuple};
+
 #[pyclass(module = "rnzb", frozen, eq, hash)]
 #[derive(Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct Meta {
-    #[pyo3(get)]
-    pub title: Option<String>,
-    #[pyo3(get)]
-    pub passwords: Tuple<String>,
-    #[pyo3(get)]
-    pub tags: Tuple<String>,
-    #[pyo3(get)]
-    pub category: Option<String>,
-}
+#[serde(transparent)]
+pub struct Meta(nzb_rs::Meta);
 
-// Implement Python-esque debug
-impl Debug for Meta {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "Meta(title={}, passwords={}, tags={}, category={})",
-            self.title
-                .as_ref()
-                .map_or_else(|| "None".to_string(), |t| format!("{:?}", t)),
-            self.passwords,
-            self.tags,
-            self.category
-                .as_ref()
-                .map_or_else(|| "None".to_string(), |t| format!("{:?}", t)),
-        )
+impl From<nzb_rs::Meta> for Meta {
+    fn from(m: nzb_rs::Meta) -> Self {
+        Self(m)
     }
 }
 
-// Implement Python-esque display
-// It's identical to Debug
-impl Display for Meta {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        Debug::fmt(&self, f)
-    }
-}
-
-// Implement conversion from RustMeta to Meta
-impl From<RustMeta> for Meta {
-    fn from(m: RustMeta) -> Self {
-        Self {
-            title: m.title.clone(),
-            passwords: m.passwords.clone().into(),
-            tags: m.tags.clone().into(),
-            category: m.category.clone(),
-        }
-    }
-}
-
-// Implement conversion from Meta to RustMeta
-impl From<Meta> for RustMeta {
+impl From<Meta> for nzb_rs::Meta {
     fn from(m: Meta) -> Self {
-        RustMeta {
-            title: m.title.clone(),
-            passwords: m.passwords.0.clone(),
-            tags: m.tags.0.clone(),
-            category: m.category.clone(),
+        Self {
+            title: m.title(),
+            passwords: m.passwords().into(),
+            tags: m.tags().into(),
+            category: m.category(),
         }
+    }
+}
+
+impl PyRepr for Meta {
+    fn pyrepr(&self) -> String {
+        format!(
+            "Meta(title={}, passwords={}, tags={}, category={})",
+            self.title().pyrepr(),
+            self.passwords().pyrepr(),
+            self.tags().pyrepr(),
+            self.category().pyrepr()
+        )
     }
 }
 
@@ -78,22 +47,35 @@ impl Meta {
         tags: Vec<String>,
         category: Option<String>,
     ) -> Self {
-        Self {
+        Self(nzb_rs::Meta {
             title,
-            passwords: passwords.into(),
-            tags: tags.into(),
+            passwords,
+            tags,
             category,
-        }
+        })
     }
+
+    #[getter]
+    pub fn title(&self) -> Option<String> {
+        self.0.title.clone()
+    }
+
+    #[getter]
+    pub fn passwords(&self) -> Tuple<String> {
+        self.0.passwords.clone().into()
+    }
+
+    #[getter]
+    pub fn tags(&self) -> Tuple<String> {
+        self.0.tags.clone().into()
+    }
+
+    #[getter]
+    pub fn category(&self) -> Option<String> {
+        self.0.category.clone()
+    }
+
     pub fn __repr__(&self) -> String {
-        format!("{:?}", self)
-    }
-
-    pub fn __str__(&self) -> String {
-        self.__repr__()
-    }
-
-    pub fn __copy__(&self) -> Self {
-        self.clone()
+        self.pyrepr()
     }
 }
