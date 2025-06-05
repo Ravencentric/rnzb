@@ -1,4 +1,3 @@
-use nzb_rs;
 use pyo3::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -49,10 +48,10 @@ impl Meta {
         category: Option<String>,
     ) -> Self {
         Self(nzb_rs::Meta {
-            title: title,
-            passwords: passwords,
-            tags: tags,
-            category: category,
+            title,
+            passwords,
+            tags,
+            category,
         })
     }
 

@@ -3,7 +3,6 @@ use crate::file::File;
 use crate::meta::Meta;
 use crate::repr::PyRepr;
 use crate::tuple::Tuple;
-use nzb_rs;
 use pyo3::exceptions::PyFileNotFoundError;
 use pyo3::prelude::*;
 use serde::{Deserialize, Serialize};

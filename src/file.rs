@@ -1,6 +1,5 @@
 use crate::{segment::Segment, tuple::Tuple};
 use chrono::{DateTime, Utc};
-use nzb_rs;
 use pyo3::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -55,10 +54,10 @@ impl File {
         segments: Vec<Segment>,
     ) -> Self {
         Self(nzb_rs::File {
-            poster: poster,
-            posted_at: posted_at,
-            subject: subject,
-            groups: groups,
+            poster,
+            posted_at,
+            subject,
+            groups,
             segments: segments.into_iter().map(Into::into).collect(),
         })
     }
@@ -79,7 +78,7 @@ impl File {
 
     #[getter]
     pub fn subject(&self) -> &str {
-        &self.0.poster
+        &self.0.subject
     }
 
     #[getter]

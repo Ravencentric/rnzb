@@ -1,4 +1,3 @@
-use nzb_rs;
 use pyo3::prelude::*;
 use serde::{Deserialize, Serialize};
 
@@ -42,9 +41,9 @@ impl Segment {
     #[pyo3(signature = (*, size, number, message_id))]
     pub fn __new__(size: u32, number: u32, message_id: String) -> Self {
         Self(nzb_rs::Segment {
-            size: size,
-            number: number,
-            message_id: message_id,
+            size,
+            number,
+            message_id,
         })
     }
 
