@@ -1,9 +1,9 @@
 from collections.abc import Sequence
 from datetime import datetime
 from os import PathLike
-from typing import final
+from typing import Final, final
 
-__all__ = ("File", "InvalidNzbError", "Meta", "Nzb", "Segment")
+__all__: Final = ("File", "InvalidNzbError", "Meta", "Nzb", "Segment")
 
 @final
 class InvalidNzbError(Exception):
