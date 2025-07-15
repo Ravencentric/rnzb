@@ -266,7 +266,7 @@ wheels = [
 
 [[package]]
 name = "rnzb"
-version = "0.5.0"
+version = "0.5.1"
 source = { editable = "." }
 
 [package.dev-dependencies]

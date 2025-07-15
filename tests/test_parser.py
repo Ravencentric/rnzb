@@ -3,6 +3,7 @@ from __future__ import annotations
 import datetime
 import sys
 from pathlib import Path
+from textwrap import dedent
 
 import pytest
 import rnzb
@@ -377,7 +378,23 @@ def test_valid_nzb_with_one_missing_segment(nzb_file: Path) -> None:
 
 
 def test_standard_ish_subject_with_no_quotes() -> None:
-    nzb = Nzb.from_file(NZB_DIR / "standard_ish_subject_with_no_quotes.nzb")
+    nzb = Nzb.from_str(
+        dedent("""\
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE nzb PUBLIC "-//newzBin//DTD NZB 1.1//EN" "http://www.newzbin.com/DTD/nzb/nzb-1.1.dtd">
+    <nzb
+        xmlns="http://www.newzbin.com/DTD/2003/nzb">
+        <file poster="John &lt;nzb@nowhere.example&gt;" date="1706440708" subject="[011/116] - [AC-FFF] Highschool DxD BorN - 02 [BD][1080p-Hi10p] FLAC][Dual-Audio][442E5446].mkv yEnc (1/2401) 1720916370">
+            <groups>
+                <group>alt.binaries.boneless</group>
+            </groups>
+            <segments>
+                <segment bytes="739067" number="1">9cacde4c986547369becbf97003fb2c5-9483514693959@example</segment>
+            </segments>
+        </file>
+    </nzb>
+    """)
+    )
     assert (
         nzb.file.name
         == "[AC-FFF] Highschool DxD BorN - 02 [BD][1080p-Hi10p] FLAC][Dual-Audio][442E5446].mkv"
@@ -390,9 +407,32 @@ def test_standard_ish_subject_with_no_quotes() -> None:
     assert nzb.file.has_extension("mkv") is True
     assert nzb.file.is_par2() is False
     assert nzb.file.is_rar() is False
-    assert nzb.is_rar() is False
-    assert nzb.has_par2() is True
-    assert nzb.is_obfuscated() is False
+
+
+def test_subsplease_nagataro_subject_with_no_quotes() -> None:
+    nzb = Nzb.from_str(
+        dedent("""\
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE nzb PUBLIC "-//newzBin//DTD NZB 1.1//EN" "http://www.newzbin.com/DTD/nzb/nzb-1.1.dtd">
+    <nzb
+        xmlns="http://www.newzbin.com/DTD/2003/nzb">
+        <file poster="John &lt;nzb@nowhere.example&gt;" date="1706440708" subject="[010/108] - [SubsPlease] Ijiranaide, Nagatoro-san - 02 (1080p) [6E8E8065].mkv yEnc (1/2014) 1443366873">
+            <groups>
+                <group>alt.binaries.boneless</group>
+            </groups>
+            <segments>
+                <segment bytes="739067" number="1">9cacde4c986547369becbf97003fb2c5-9483514693959@example</segment>
+            </segments>
+        </file>
+    </nzb>
+    """)
+    )
+    assert nzb.file.name == "[SubsPlease] Ijiranaide, Nagatoro-san - 02 (1080p) [6E8E8065].mkv"
+    assert nzb.file.stem == "[SubsPlease] Ijiranaide, Nagatoro-san - 02 (1080p) [6E8E8065]"
+    assert nzb.file.extension == "mkv"
+    assert nzb.file.has_extension("mkv") is True
+    assert nzb.file.is_par2() is False
+    assert nzb.file.is_rar() is False
 
 
 def test_bad_subject() -> None:
