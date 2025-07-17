@@ -261,7 +261,7 @@ class Nzb:
     def file(self) -> File:
         """
         The main content file (episode, movie, etc) in the NZB.
-        This is determined by finding the largest file in the NZB
+        This is determined by finding the largest non `par2` file in the NZB
         and may not always be accurate.
         """
 
