@@ -1,6 +1,6 @@
 [project]
 name = "rnzb"
-version = "0.5.1"
+version = "0.5.2"
 description = "Python bindings to the nzb-rs library - a spec compliant parser for NZB files, written in Rust."
 authors = [{ name = "Ravencentric", email = "me@ravencentric.cc" }]
 readme = "README.md"
