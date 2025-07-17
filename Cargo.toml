@@ -2,7 +2,8 @@
 name = "rnzb"
 version = "0.0.0"
 edition = "2024"
-rust-version = "1.87"
+rust-version = "1.88"
+resolver = "3"
 
 [lib]
 name = "rnzb"
