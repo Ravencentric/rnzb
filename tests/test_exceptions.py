@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import textwrap
 from pathlib import Path
 
@@ -8,9 +9,11 @@ from rnzb import InvalidNzbError, Nzb
 
 NZB_DIR = Path(__file__).parent.resolve() / "nzbs"
 
-INVALID_NZB_ERROR_GROUPS_ELEMENT = "Invalid or missing 'groups' element within the 'file' element. Each 'file' element must contain at least one valid 'groups' element."
-INVALID_NZB_ERROR_SEGMENTS_ELEMENT = "Invalid or missing 'segments' element within the 'file' element. Each 'file' element must contain at least one valid 'segments' element."
-INVALID_NZB_ERROR_FILE_ELEMENT = "Invalid or missing 'file' element in the NZB document. The NZB document must contain at least one valid 'file' element, and each 'file' must have at least one valid 'groups' and 'segments' element."
+INVALID_NZB_ERROR_GROUPS_ELEMENT = "Invalid or missing 'groups' element within a 'file' element. Each 'file' element must contain at least one valid 'groups' element."
+INVALID_NZB_ERROR_SEGMENTS_ELEMENT = "Invalid or missing 'segments' element within a 'file' element. Each 'file' element must contain at least one valid 'segments' element."
+INVALID_NZB_ERROR_FILE_ELEMENT = "Invalid or missing 'file' element in the NZB document. The NZB document must contain at least one valid 'file' element."
+XML_SYNTAX_ERROR = re.compile(r"The NZB document is not valid XML and could not be parsed: (.*)")
+
 
 invalid_xml = """\
 <?xml version="1.0" encoding="iso-8859-1" ?>
@@ -55,7 +58,7 @@ valid_xml_but_invalid_nzb = """\
     [
         pytest.param(
             invalid_xml,
-            "^The NZB document is not valid XML and could not be parsed:",
+            XML_SYNTAX_ERROR,
             id="truncated_xml",
         ),
         pytest.param(
@@ -63,7 +66,7 @@ valid_xml_but_invalid_nzb = """\
         ),
     ],
 )
-def test_parsing_invalid_nzb(input_xml: str, expected_error: str) -> None:
+def test_parsing_invalid_nzb(input_xml: str, expected_error: re.Pattern[str]) -> None:
     with pytest.raises(InvalidNzbError, match=expected_error):
         Nzb.from_str(input_xml)
 
@@ -180,6 +183,27 @@ def test_nzb_with_missing_file_subject() -> None:
         InvalidNzbError,
         match=r"Invalid or missing required attribute 'subject' in a 'file' element.",
     ):
+        Nzb.from_str(nzb)
+
+
+def test_nzb_with_only_par2_files() -> None:
+    match = "The NZB document contains only `.par2` files. It must include at least one non-`.par2` file."
+
+    with pytest.raises(InvalidNzbError, match=match):
+        nzb = textwrap.dedent("""
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE nzb PUBLIC "-//newzBin//DTD NZB 1.1//EN" "http://www.newzbin.com/DTD/nzb/nzb-1.1.dtd">
+        <nzb xmlns="http://www.newzbin.com/DTD/2003/nzb">
+            <file poster="Joe Bloggs &lt;bloggs@nowhere.example&gt;" date="1590927494" subject="[1/1] - &quot;[Baz] Foobar - 09 (1080p) [0000BEEF].par2&quot; yEnc (1/1) 388">
+                <groups>
+                    <group>alt.binaries.boneless</group>
+                </groups>
+                <segments>
+                    <segment bytes="581" number="1">MtUwAvUsIaGzDhHhJgXsXaFv-1690927494721@nyuu</segment>
+                </segments>
+            </file>
+        </nzb>
+        """).strip()
         Nzb.from_str(nzb)
 
 

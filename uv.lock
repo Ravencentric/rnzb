@@ -201,11 +201,11 @@ wheels = [
 
 [[package]]
 name = "nzb"
-version = "0.5.4"
+version = "0.6.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/16/9a/d93cdb5805617963911c9ff9fe0c480eafde88bc35bde23e3e8b0c74dbb6/nzb-0.5.4.tar.gz", hash = "sha256:6bef11675a4adc2ea10397ebace31f3e53f2e1aa65ca51c9628bef330fa1695f", size = 80823, upload-time = "2025-08-18T16:22:26.583Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2c/4f/7247f5e047932015712d715dc5088893a349fe6be62cbca26137c1667075/nzb-0.6.0.tar.gz", hash = "sha256:ed38ea9e6c91dc15c723f50f589962c925d0283d5f9021f7a3a2afa1cdb0d089", size = 80739, upload-time = "2025-08-22T17:15:39.429Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/40/fb/d472953b1025ab7583a3b37e7ade0613fe5e1d6d53a808c010e57e4b5b7c/nzb-0.5.4-py3-none-any.whl", hash = "sha256:813284afe9e72e97685a444111c0d952ac74ceb88c93ec2e024abb167af98c4e", size = 14371, upload-time = "2025-08-18T16:22:25.023Z" },
+    { url = "https://files.pythonhosted.org/packages/66/33/3914249cf7e5930f14a70b6f95ea685ca5cf99d7d2aaeef5307e064ad8b7/nzb-0.6.0-py3-none-any.whl", hash = "sha256:01c398da465a5bb34435672c892d90f048e28193e4df4f1bbbc16d5b3e7f3959", size = 14902, upload-time = "2025-08-22T17:15:38.368Z" },
 ]
 
 [[package]]
@@ -303,18 +303,18 @@ dev = [
     { name = "maturin", specifier = ">=1.9.1" },
     { name = "mypy", specifier = ">=1.14.1" },
     { name = "nox", specifier = ">=2025.5.1" },
-    { name = "nzb", marker = "python_full_version >= '3.10'", specifier = ">=0.5.0" },
+    { name = "nzb", marker = "python_full_version >= '3.10'", specifier = ">=0.6.0" },
     { name = "pytest", specifier = ">=8.3.4" },
     { name = "ruff", specifier = ">=0.11.13" },
 ]
 lint = [
     { name = "mypy", specifier = ">=1.14.1" },
-    { name = "nzb", marker = "python_full_version >= '3.10'", specifier = ">=0.5.0" },
+    { name = "nzb", marker = "python_full_version >= '3.10'", specifier = ">=0.6.0" },
     { name = "pytest", specifier = ">=8.3.4" },
     { name = "ruff", specifier = ">=0.11.13" },
 ]
 test = [
-    { name = "nzb", marker = "python_full_version >= '3.10'", specifier = ">=0.5.0" },
+    { name = "nzb", marker = "python_full_version >= '3.10'", specifier = ">=0.6.0" },
     { name = "pytest", specifier = ">=8.3.4" },
 ]
 
